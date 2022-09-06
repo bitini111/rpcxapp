@@ -14,7 +14,6 @@ import (
 
 func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
-
 	r := serverplugin.EtcdV3RegisterPlugin{
 		ServiceAddress: conf.CmdConf.Network + "@" + conf.CmdConf.IpAddress, //服务监听的ip端口
 		EtcdServers:    conf.GetEtcdAddr(),                                  //zookeeper地址
@@ -31,19 +30,10 @@ func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 		return err
 	}
 
-	srv.RegisterOnShutdown(shutdown)
-	WaitTerminationSignal := func(ss *server.Server) {
-		ch := make(chan os.Signal, 1)
-		signal.Notify(ch, syscall.SIGINT, syscall.SIGTERM, syscall.SIGQUIT)
-		defer func() {
-			signal.Stop(ch)
-			close(ch)
-		}()
-		<-ch
-		ss.Close()
-	}
+	//srv.RegisterOnShutdown(shutdown)
 
-	WaitTerminationSignal(srv)
+	go WaitTerminationSignal(srv,shutdown)
+
 
 	srv.RegisterName(conf.CmdConf.ServerName, ctl, conf.CmdConf.ServerName) //服务名，以及服务的接收方法
 	er := srv.Serve(conf.CmdConf.Network, conf.CmdConf.IpAddress)
@@ -51,5 +41,21 @@ func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 		log.Fatalln(err)
 	}
 
+
 	return nil
+}
+
+func WaitTerminationSignal(ss *server.Server,shutdown func(s *server.Server))     {
+	ch := make(chan os.Signal, 1)
+	signal.Notify(ch, syscall.SIGINT,syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGUSR1, syscall.SIGTERM)
+	defer func() {
+		signal.Stop(ch)
+		close(ch)
+	}()
+	<-ch
+	conf.CloseEtcdWatch()
+	shutdown(ss)
+	ss.Close()
+
+	return
 }
