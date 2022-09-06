@@ -5,22 +5,23 @@ const (
 	LOGIN_TYPE_GUEST    int32 = 1
 	LOGIN_TYPE_FACEBOOK int32 = 2 //FACEBOOK 登录
 	LOGIN_TYPE_PHONE    int32 = 3 //手机登录
-	LOGIN_TYPE_OPPO     int32 = 4
-	LOGIN_TYPE_VIVO     int32 = 5
-	LOGIN_TYPE_HUAWEI   int32 = 6
-	LOGIN_TYPE_STEAM	int32 = 7
-	LOGIN_TYPE_EMAIL    int32 = 8
-	LOGIN_TYPE_END      int32 = 8 //合法登录类型的终点值（新增LOGIN_TYPE时，该值也需要更新）
+	LOGIN_TYPE_EMAIL    int32 = 4
+	LOGIN_TYPE_OPPO     int32 = 5
+	LOGIN_TYPE_VIVO     int32 = 6
+	LOGIN_TYPE_HUAWEI   int32 = 7
+	LOGIN_TYPE_STEAM    int32 = 8
+	LOGIN_TYPE_END      int32 = 8   //合法登录类型的终点值（新增LOGIN_TYPE时，该值也需要更新）
 	LOGIN_TYPE_HIDDEN   int32 = 100 //特殊的类型，真人改为机器人时用了，fb用户删除时也用了
 )
 
 //登录信息中的param参数的见容
 type LoginParam struct {
+	Vcode       string `json:"v_code"`
 	Token       string `json:"token"`
 	AccessToken string `json:"access_token"`
+	Nick        string `json:"nick"`
+	Icon        string `json:"icon"`
 }
-
-
 
 //FB登录校验返回参数
 //{
@@ -125,13 +126,10 @@ type EmailVerificationCode struct {
 	IsCheck    bool   //	是否校验通过false未通过true通过
 }
 
-
 type PhoneVerificationCode struct {
-	Code       int    //	验证码
-	ValidTime  int64  //	有效期
+	Code      string //	验证码
+	ValidTime int64  //	有效期
 }
-
-
 
 type SendEmailMsg struct {
 	Email    string `json:"email"`
@@ -145,6 +143,6 @@ type EmailHtml struct {
 
 //Steam返回用户信息
 type SteamUserInfo struct {
-	Name string `json:"name"` //昵称
+	Name   string `json:"name"`   //昵称
 	Avatar string `json:"avatar"` //头像
 }

@@ -1,5 +1,9 @@
 package conf
 
+import (
+	"sync"
+)
+
 type CmdConfig struct {
 	IpAddress   string //rpc服务监听的ip端口
 	Version     string //rpc版本
@@ -14,7 +18,7 @@ type CmdConfig struct {
 	Closed      bool   //
 	IpCode      string //
 	Cfg         string //
-	ENV         int32  //环境：1、本地环境；2、开发环境；3、测试环境；4、线上环境(具体的环境数值建议放在各自项目的gDefine中)
+	ENV         int32  //环境：1、线上环境；2、开发环境；3、本地环境
 }
 
 type CustomCfg struct {
@@ -45,6 +49,10 @@ var (
 	CmdConf       *CmdConfig
 	mysqlConf     = make(map[string]*DBConf)    //mysql 库表对应配置
 	redisPoolConf = make(map[string]*RedisConf) //redis全局连接池配置
+	otherConf     = make(map[string]string)     //redis全局连接池配置
+	etdConfLock   sync.RWMutex
 	etcdKey       = make(map[string]string)
+
+	etcdWatch *EtcdWatcher
 	//etcdConf      * serverplugin.EtcdV3RegisterPlugin
 )

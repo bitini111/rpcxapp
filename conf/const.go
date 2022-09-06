@@ -12,17 +12,17 @@ const (
 	ECODE_RSP_FINISHED        int32 = 20000 //特殊状态码，返回了此状态吗表示某rpc服务已经直接回包了，不用重复回包；
 	SUCCESS                   int32 = 0     //表示操作成功
 	ECODE_OPERATE_DEFAULT_ERR int32 = -1    //默认的操作失败的错误码
-	ECODE_OPERATE_FAIL        int32 = -1000
+	ECODE_OPERATE_FAIL        int32 = -1000 //操作失败
 	ECODE_PARAM_ILLEGAL       int32 = -1001 //参数数值不合法
-
-	ECODE_MYSQL_GET         int32 = -1002
-	ECODE_MYSQL_SET         int32 = -1003
-	ECODE_CONFIG_GET        int32 = -1004
-	ECODE_CONFIG_WRONG      int32 = -1005
-	ECODE_CONCURRENCY_WRONG int32 = -1006
-	ECODE_NEED_LOGIN        int32 = -1007
-	ECODE_REDIS_GET         int32 = -1008
-	ECODE_REDIS_SET         int32 = -1009
+	ECODE_MYSQL_GET           int32 = -1002 //MySQL获取失败
+	ECODE_MYSQL_SET           int32 = -1003 //MySQL设置失败
+	ECODE_CONFIG_GET          int32 = -1004 //获取配置失败
+	ECODE_CONFIG_WRONG        int32 = -1005 //配置失败
+	ECODE_CONCURRENCY_WRONG   int32 = -1006 //
+	ECODE_NEED_LOGIN          int32 = -1007 //需要登录
+	ECODE_REDIS_GET           int32 = -1008 //Redis获取失败
+	ECODE_REDIS_SET           int32 = -1009 //Redis设置失败
+	ECODE_REDIS_DEL           int32 = -1010 //Redis删除失败
 )
 
 //================game模块错误 1000+ ================
@@ -56,6 +56,10 @@ const (
 	ECODE_GAME_RETIRE_LOGIN        int32 = 1026 //游戏退休时,不能登录
 	ECODE_GAME_NOT_ENOUGH_MONEY    int32 = 1027 //玩家的金币筹码不足，不能快速开始。
 	ECODE_DENIED_BY_ANTI_CHEATING  int32 = 1028 //进入房间失败，被防作弊机制限制
+	ECODE_USER_NOT_SIT_ON_BET      int32 = 1030 //游戏中不能坐下
+	ECODE_ROOM_LIMIT_MIN_PLAY      int32 = 1031 //低于房间最低分，不能游戏
+	ECODE_IN_OTHER_ROOM            int32 = 1032 //玩家已经在其他房间了
+	ECODE_IN_OTHER_GAME            int32 = 1033 //玩家已经在其他游戏了
 
 	ECODE_MATCH_START_TABLE_BUSY int32 = 1040 //match通知开启一局游戏时，桌子处于忙碌状态
 	ECODE_ILLEGAL_PARAM          int32 = 1041 //非法的参数
@@ -70,20 +74,19 @@ const (
 	ECODE_USER_NOT_FOUND       int32 = 1050 //退出时用户未找到
 	ECODE_NOT_IN_LOOKON_SEAT   int32 = 1051 //围观阵容和坐下阵容中找不到该玩家
 	ECODE_ALL_IN_CAN_NOT_LEAVE int32 = 1052 //all-in用户不能主动离开
-
 	//chipin/check/call
-	ECODE_NON_SEAT_USER    int32 = 1060 //非坐下的玩家来执行下注操作
-	ECODE_TABLE_NOT_BUSY   int32 = 1061 //玩家操作时，桌子已经处于空闲状态
-	ECODE_ILLEGAL_OP_USER  int32 = 1062 //非法的操作人
-	ECODE_ILLEGAL_OP_MONEY int32 = 1063 //操作的筹码数额不对，可能超过了持有筹码数
-	ECODE_ILLEGAL_CHECK    int32 = 1064 //已下注数小于其他人，不能执行check操作
-	ECODE_CALL_ZERO        int32 = 1065 //跟注的数额不能小于等于0
-	ECODE_CALL_LESS        int32 = 1066 //玩家下注的数额小于最小下注数
-	ECODE_ADD_LESS         int32 = 1067 //玩家下注的数额大于最小下注，小于最小加注，不合理
-	ECODE_CALL_ILLEGAL     int32 = 1068 //金币下的比别人少，也没有allin
-	ECODE_ILLEGAL_OPTYPE   int32 = 1069 //非法的操作类型
-	ECODE_CHIP_IN_REPEATED int32 = 1070 //重复操作
-
+	ECODE_NON_SEAT_USER         int32 = 1060 //非坐下的玩家来执行下注操作
+	ECODE_TABLE_NOT_BUSY        int32 = 1061 //玩家操作时，桌子已经处于空闲状态
+	ECODE_ILLEGAL_OP_USER       int32 = 1062 //非法的操作人
+	ECODE_ILLEGAL_OP_MONEY      int32 = 1063 //操作的筹码数额不对，可能超过了持有筹码数
+	ECODE_ILLEGAL_CHECK         int32 = 1064 //已下注数小于其他人，不能执行check操作
+	ECODE_CALL_ZERO             int32 = 1065 //跟注的数额不能小于等于0
+	ECODE_CALL_LESS             int32 = 1066 //玩家下注的数额小于最小下注数
+	ECODE_ADD_LESS              int32 = 1067 //玩家下注的数额大于最小下注，小于最小加注，不合理
+	ECODE_CALL_ILLEGAL          int32 = 1068 //金币下的比别人少，也没有allin
+	ECODE_ILLEGAL_OPTYPE        int32 = 1069 //非法的操作类型
+	ECODE_CHIP_IN_REPEATED      int32 = 1070 //重复操作
+	ECODE_ILLEGAL_STATE_ILLEGAL int32 = 1071 //游戏状态不是操作作态
 	//stand sit
 	ECODE_HAS_STAND         int32 = 1080 //站起时，已经站起或者离开的玩家
 	ECODE_NOT_YOUR_TURN     int32 = 1081 //站起时，未轮到你操作
@@ -92,15 +95,13 @@ const (
 	ECODE_SEATUSER_INIT_ERR int32 = 1084 //seatUser初始化异常
 	ECODE_USER_ON_SEAT      int32 = 1085 //该座位上有人
 	ECODE_USER_EXISTS       int32 = 1086 //玩家已经在另外的座位上了
-
+	ECODE_USER_ROUND_LIMIT  int32 = 1087 //局数限制，不能操作
 	//设置自动买入
 	ECODE_CHIP_MORE_THAN_MONEY int32 = 1090 //兑换筹码数量超过了金币数量
 	ECODE_CHIP_MORE_THAN_SET   int32 = 1091 //兑换筹码数量超过了当前持有筹码数量
 	ECODE_ILLEGAL_SET          int32 = 1092 //大于了设置的最大值或者小于了设置的最小值
-
 	//设置玩家掉线 SetOffLine
 	ECODE_NO_USER_FOUND int32 = 1100 //座位上和围观阵容中都找不到玩家
-
 	//====================比赛模块
 	ECODE_MATCH_NO_CONFIG_FOUND        int32 = 1200 //找不到比赛配置
 	ECODE_MATCH_NO_SIGNED_FOUND        int32 = 1201 //找不到报名的玩家
@@ -135,15 +136,19 @@ const (
 	ECODE_MATCH_UNSIGN_FAILED_UPSTREAM int32 = 1230 //取消报名失败：上游服务返回失败
 	ECODE_MATCH_GEN_MATCH_ID_FAILED          = 1231 //生成比赛ID失败
 	ECODE_MATCH_UNSIGN_FAILED_STARTED        = 1232 //取消报名失败：比赛已经开始
-
 	//比赛分桌子
 	ECODE_MATCHALLOC_NOT_ENOUGH    int32 = 1230 //申请的桌子数量不够
 	ECODE_MATCHALLOC_ILLEGAL_PARAM int32 = 1231 //matchAlloc请求参数异常
 	ECODE_MATCHALLOC_LESS_TABLES   int32 = 1232 //matchAlloc分配的桌子数小于请求的桌子数
 	ECODE_MATCHALLOC_NOT_BORROWED  int32 = 1233 //归还桌子时，找不到该matchid的借桌子记录
-
 	//登录大厅
 	ECODE_HALL_LOGIN_ERR int32 = 1300
+)
+
+const (
+	ENV_PRODECT int32 = 1 //线上生产环境
+	ENV_DEV     int32 = 2 //线上开发环境
+	ENV_LOCAL   int32 = 3 //本地环境
 )
 
 //各服务逻辑错误，5000+
@@ -174,13 +179,16 @@ const (
 	ECODE_MALL_ORDER_VERIFY_FAILED            int32 = 5066 //订单验证失败
 	ECODE_MALL_ORDER_UPDATE_DELIVERED_FAILED  int32 = 5067 //订单更新状态失败
 	ECODE_MALL_ORDER_DELIVER_FAILED           int32 = 5068 //订单发货失败
-	ECODE_MALL_HAS_NO_FIRST_BUY               int32 = 5069 //用户无首充优惠资格
-	ECODE_MALL_VALID_FAILED                   int32 = 5070 //验证失败
-	ECODE_MALL_HAS_NO_DISCOUNT                int32 = 5071 //用户无优惠购买资格
-	ECODE_MALL_HAS_NO_RIGHT                   int32 = 5072 //用户领取资格
-	ECODE_MALL_MONTH_CARD_OVER                int32 = 5073 //用户月卡购买上限
-	ECODE_MALL_CREATE_ORDER_FORBIDDEN         int32 = 5074 //禁止特定地区的玩家下单
-	ECODE_MALL_VALID_END                      int32 = 5080 //占位
+	ECODE_MALL_LIMIT_MIN_MONEY                int32 = 5069 //提现最小限制
+	ECODE_MALL_LIMIT_MAX_MONEY                int32 = 5070 //提现最大限制
+	ECODE_MALL_LIMIT_TIMES                    int32 = 5071 //提现已经超过最大次数
+	ECODE_MALL_ORDER_GET_ERR                  int32 = 5072 //提现订单查询失败
+
+	ECODE_MALL_VALID_FAILED int32 = 5070 //验证失败
+
+	ECODE_MALL_CREATE_ORDER_FORBIDDEN int32 = 5074 //禁止特定地区的玩家下单
+
+	ECODE_MALL_VALID_END int32 = 5080 //占位
 
 	//登录相关
 	ECODE_LOGIN_FAKE_INFO                 int32 = 5100 //非法构造请求
@@ -204,7 +212,9 @@ const (
 	ECODE_LOGIN_GUEST_NOT_EXIST           int32 = 5118 //游客账号不存在
 	ECODE_LOGIN_PASSWORD_CANNOT_CHINESE   int32 = 5119 //密码不能为中文
 	ECODE_LOGIN_IP_REGISTER_LIMIT         int32 = 5220 //注册ip上限
-
+	ECODE_LOGIN_PASSWORD_SAME_ERR         int32 = 5221 //密码格式错误或密码错误
+	ECODE_LOGIN_CHECK_PHONE_ERR           int32 = 5222 //手机验证失败
+	ECODE_LOGIN_CHECK_EMAIL_ERR           int32 = 5223 //邮箱号码验证失败
 	//比赛领奖相关
 	ECODE_MATCH_COLLECT_ONLY_COMMON int32 = 5150 //只能收藏自由场牌局记录
 	ECODE_MATCH_AWARD_ALREADY       int32 = 5151 //领奖时，奖品已经领取
@@ -226,8 +236,11 @@ const (
 	ECODE_TASK_AWARD_ALREADY      int32 = 5300 //奖品已经领取
 	ECODE_TASK_AWARD_STATUS_WRONG int32 = 5301 //领奖时，非可领取状态
 	ECODE_TASK_GET_MONEY_ERR      int32 = 5302 //获取用户金币信息失败
-	ECODE_TASK_DELIVERY_ERR       int32 = 5302 //发货失败
-	ECODE_TASK_NEWER_EXPIRE       int32 = 5303 //新手任务已经超过活动期限
+	ECODE_TASK_DELIVERY_ERR       int32 = 5303 //发货失败
+	ECODE_TASK_NEWER_EXPIRE       int32 = 5304 //新手任务已经超过活动期限
+	ECODE_TASK_CFG_ID             int32 = 5305 //获取任务配置ID错误
+	ECODE_TASK_CFG                int32 = 5306 //获取用户任务配置失败
+	ECODE_TASK_TASK_ERR           int32 = 5307 //获取用户任务失败
 
 	//背包相关
 	ECODE_USERITME_NOT_OWN                  int32 = 5350 //用户不拥有此物品
@@ -438,47 +451,98 @@ const (
 	ECODE_GAMBLE_DEALER_CAN_NOT_CANCEL    = 7410 //下一任庄家不能取消排庄
 )
 
-//活动服务
+//彩票
 const (
-	ECODE_ACTIVITY_NOT_IN            = 7400 //没有活动资格
-	ECODE_ACTIVITY_NOT_RIGHT         = 7401 //没有领取资格
-	ECODE_ACTIVITY_AWARD_ALREADY_GOT = 7402 //已经领取过了
-	ECODE_ACTIVITY_AWARD_TIME_NOT_OK = 7403 //领取时间未到
+	ECODE_LOTTERY_ILLEGAL_LIMIT            = 7501 //彩票数量不够消费
+	ECODE_LOTTERY_ILLEGAL_DELIVER          = 7502 //彩票使用失败
+	ECODE_LOTTERY_ILLEGAL_MONEY_BUY        = 7503 //金币购买彩票失败
+	ECODE_LOTTERY_ILLEGAL_TIME_LIMIT       = 7504 //购买时间限制(最后两个小时不能购买)
+	ECODE_LOTTERY_ILLEGAL_CONFIG           = 7505 //获取彩票配置失败
+	ECODE_LOTTERY_ILLEGAL_CONFIG_ID        = 7506 //查询配置id不合法
+	ECODE_LOTTERY_ILLEGAL_ORDER_TICK       = 7507 //购买彩票下单失败
+	ECODE_LOTTERY_ILLEGAL_TICKET_USED      = 7508 //彩票领取已经领取
+	ECODE_LOTTERY_ILLEGAL_TICKET_PARAM     = 7509 //彩票领取提交参数错误
+	ECODE_LOTTERY_ILLEGAL_TICKET_MONEY     = 7510 //彩票领取金币改变失败
+	ECODE_LOTTERY_ILLEGAL_SERVICE_STOP     = 7511 //彩票服务已经关闭
+	ECODE_LOTTERY_ILLEGAL_LIST_NULL        = 7512 //购买彩票列表长度为空
+	ECODE_LOTTERY_ILLEGAL_MULTIPLE         = 7513 //购买彩票倍数小于等于0
+	ECODE_LOTTERY_ILLEGAL_LIST_LIMIT       = 7514 //购买彩票倍列表长度超过最大限制20
+	ECODE_LOTTERY_ILLEGAL_NUMBER_LEN       = 7515 //购买彩票号码长度不等于6
+	ECODE_LOTTERY_ILLEGAL_NUMBER_SPECIAL   = 7516 //购买彩票号码特殊号码错误
+	ECODE_LOTTERY_ILLEGAL_NUMBER_COMMON    = 7517 //购买彩票号码普通号码不对
+	ECODE_LOTTERY_ILLEGAL_ORDER_ID         = 7518 //领奖的ordierid小于等于0 不合法
+	ECODE_LOTTERY_ILLEGAL_HISTORY_CUR_PAGE = 7519 //查询用户历史时记录提交当前页面错误
+	ECODE_LOTTERY_ILLEGAL_HISTORY_CFG_ID   = 7520 //查询用户历史时记录提交配置id不合法
 )
 
-//跑牌
+//firebase推送消息
 const (
-	ECODE_PAOPAI_ILLEGAL_CARDS        = 7501 //非法的操作
-	ECODE_PAOPAI_USER_HAS_BEEN_READY  = 7502 //玩家已经准备过了，不需要重新准备；
-	ECODE_PAOPAI_NOT_HAVE_THESE_CARDS = 7503 //玩家没有该牌（可能是已经是自动打出的牌再次被玩家打出）。
-	ECODE_PAOPAI_USER_IS_GAMING       = 7504 //玩家正在玩牌中。（玩牌中的玩家不允许退出）
+	ECODE_FIREBASE_ILLEGAL_UPDATE = 7530 //token跟心失败
 )
 
-//大米
+//周卡月卡
 const (
-	ECODE_DUMMY_ILLEGAL_CARDS        = 7601 //非法的操作
-	ECODE_DUMMY_USER_HAS_BEEN_READY  = 7602 //玩家已经准备过了，不需要重新准备；
-	ECODE_DUMMY_NOT_HAVE_THESE_CARDS = 7603 //玩家没有该牌（可能是已经是自动打出的牌再次被玩家打出）。
-	ECODE_DUMMY_USER_IS_GAMING       = 7604 //玩家正在玩牌中。（玩牌中的玩家不允许退出）
+	ECODE_CARD_ILLEGAL_LEFT_DAY = 7520 //周卡，月卡剩余天数不够
+	ECODE_CARD_ILLEGAL_STATUS   = 7521 //周卡，月卡状态失效
+	ECODE_CARD_ILLEGAL_GIFT     = 7522 //周卡月卡项目内容错位
 )
 
-//KING牌
+//拉米
 const (
-	ECODE_KING_ILLEGAL_CARDS        = 7701 //非法的操作
-	ECODE_KING_USER_HAS_BEEN_READY  = 7702 //玩家已经准备过了，不需要重新准备；
-	ECODE_KING_NOT_HAVE_THESE_CARDS = 7703 //玩家没有该牌（可能是已经是自动打出的牌再次被玩家打出）。
-	ECODE_KING_USER_IS_GAMING       = 7704 //玩家正在玩牌中。（玩牌中的玩家不允许退出）
-	ECODE_KING_ILLEGAL_OPCODE       = 7705 //非法的游戏操作码
+	ECODE_RUMMY_ILLEGAL_CARDS        = 7611 //非法的操作
+	ECODE_RUMMY_USER_HAS_BEEN_READY  = 7612 //玩家已经准备过了，不需要重新准备；
+	ECODE_RUMMY_NOT_HAVE_THESE_CARDS = 7613 //玩家没有该牌（可能是已经是自动打出的牌再次被玩家打出）。
+	ECODE_RUMMY_USER_IS_GAMING       = 7614 //玩家正在玩牌中。（玩牌中的玩家不允许退出）
 )
 
+//水果机
 const (
-	ECODE_ILLEGAL_STAGE = 7701 //游戏阶段不正确
+	ECODE_FRUIT_ILLEGAL_CFG            = 7701 //获取配置失败
+	ECODE_FRUIT_ILLEGAL_BET_IDX        = 7702 //下注索引不正确
+	ECODE_FRUIT_ILLEGAL_MONEY_UPDATE   = 7703 //更新金币失败
+	ECODE_FRUIT_ILLEGAL_RECORD         = 7704 //获取记录失败
+	ECODE_FRUIT_ILLEGAL_MONEY_BUY      = 7705 //购买金币不足
+	ECODE_FRUIT_ILLEGAL_CONTROL_STATUS = 7706 //设置控制游戏状态不正确
+	ECODE_FRUIT_ILLEGAL_CONTROL_ITEMS  = 7707 //设置控制游戏图标不正确
+	ECODE_FRUIT_ILLEGAL_CONTROL_ADMIN  = 7708 //设置控制游戏不是管理员用户
+	ECODE_FRUIT_ILLEGAL_CONTROL_REDIS  = 7709 //设置控制失败(redis设置失败)
+	ECODE_FRUIT_ILLEGAL_GET_TTL        = 7710 //短时间再次点击开始
+	ECODE_FRUIT_ILLEGAL_SET_TTL        = 7711 //设置TTL出错
 )
 
 //模型服务
 const (
 	ECODE_MODEL_ERROR  int32 = 100000
 	ECODE_MODEL_NO_ROW int32 = 100001
+)
+
+//玩家打卡错误码
+const (
+	ECODE_SIGNERR           int32 = 8010 //签到失败，未知原因
+	ECODE_SIGNED            int32 = 8011 //签到失败，该玩家这天已经签到
+	ECODE_SIGN_OUTWEEK      int32 = 8012 //签到失败，签到的时间不在这周内
+	ECODE_SIGN_NOAWARD      int32 = 8013 //签到失败，没有正常发放奖励给玩家
+	ECODE_SIGN_NOTODAY      int32 = 8014 //签到失败，要签到时间不是今天
+	ECODE_SIGN_LOGICERR     int32 = 8015 //签到失败，逻辑错误
+	ECODE_SIGN_CALLBACK     int32 = 8016 //签到失败，数据库回退
+	ECODE_GET_WEEKCARD_FILE int32 = 8021 //获取周签信息失败
+)
+
+const (
+	ECODE_INVITE_NO_INVTOR        int32 = 9001 //邀请人不存在
+	ECODE_INVITE_NO_BEINVTOR      int32 = 9002 //被邀请人不存在
+	ECODE_INVITE_NO_INFO          int32 = 9003 //该用户没有生成邀请信息
+	ECODE_INVITE_OVER             int32 = 9004 //该用户的邀请活动已结束
+	ECODE_INVITE_OVER_TIME        int32 = 9005 //该用户注册已经超48小时
+	ECODE_INVITE_NOT_PHONE        int32 = 9006 //该用户没用绑定手机号不能初始化邀请码
+	ECODE_INVITECODE_ERR          int32 = 9010 //填写邀请码失败，邀请码非法
+	ECODE_INVITE_INVITE_ME        int32 = 9011 //填写邀请码失败，用户不能自己邀请自己
+	ECODE_INVITE_HAVE             int32 = 9012 //用户已经填写了邀请码
+	ECODE_INVITE_MONEY_NOT_ENOUGH int32 = 9021 //存钱罐金额不足，不能领取奖励
+	ECODE_INVITE_MONEY_NOT_PHONE  int32 = 9022 //用户没有绑定手机号，不能领取奖励
+	ECODE_INVITE_GET_FAUIL        int32 = 9023 //调用金币服务失败，奖励领取失败
+	ECODE_INVITE_NO_RECORD        int32 = 9031 //没有记录或者没有更多的记录了
+	//ECODE_INVITE_KEY_RECORD        int32 = 9031 //没有记录或者没有更多的记录了
 )
 
 const (
@@ -535,7 +599,12 @@ const (
 	REDIS_CONF_R12P11 = "redis.pool.r12p11" //斗地主抢地主桌子数据专用
 	REDIS_CONF_R12P12 = "redis.pool.r12p12" //斗地主癞子桌子数据专用
 	REDIS_CONF_R12P13 = "redis.pool.r12p13" //King牌桌子数据专用
-	REDIS_CONF_R13    = "redis.pool.r13"    //家园相关数据专用
+	REDIS_CONF_R13    = "redis.pool.r13"    //rummy专用
+	REDIS_CONF_R14    = "redis.pool.r14"    //poolrummy专用
+	REDIS_CONF_R15    = "redis.pool.r15"    //teen patti专用
+	REDIS_CONF_R16    = "redis.pool.r16"    //pot blind专用
+	REDIS_CONF_R17    = "redis.pool.r17"    //fruit专用
+	REDIS_CONF_R18    = "redis.pool.r18"    //
 
 	REDIS_CONF_R10SLV0   = "redis.pool.r10slv0"   //选场时找指定人数的桌子专用
 	REDIS_CONF_R10SLV1   = "redis.pool.r10slv1"   //选场时找指定人数的桌子专用
@@ -691,6 +760,7 @@ const (
 	Redis_ClientLogCfg            = REDIS_CONF_R1 //用户日志上报配置
 	Redis_BankruptThreshold       = REDIS_CONF_R1 //破产线配置
 	Redis_UserDailyPlay           = REDIS_CONF_R1 //用户每日玩牌数据
+	Redis_WithDraw                = REDIS_CONF_R1 //充值接口
 	Redis_DailyFreeMoney          = REDIS_CONF_R7 //每日免费发放货币总量
 	Redis_DailyPayMoney           = REDIS_CONF_R7 //每日付费发放货币总量
 	Redis_DailyFee                = REDIS_CONF_R7 //每日回收货币总量(台费)
@@ -721,6 +791,7 @@ const (
 	Redis_Payment_Feedback_Status = REDIS_CONF_R3 //购买记录反馈状态
 	Redis_Pay_Failed_Status       = REDIS_CONF_R3 //购买失败状态
 	Redis_SocialData              = REDIS_CONF_R9 //社交数据
+	Redis_Card                    = REDIS_CONF_R1 //周卡,月卡
 
 	//LRU淘汰模式数据
 	Redis_UserInfo              = REDIS_CONF_R3 //用户数据缓存，LRU淘汰
@@ -728,7 +799,7 @@ const (
 	Redis_SystemData            = REDIS_CONF_R4 //系统数据
 	Redis_FriendCache           = REDIS_CONF_R3 //用户好友列表缓存
 	Redis_GameTypeShowOnlineCnt = REDIS_CONF_R3 //场次列表中显示出来的在线人数
-
+	Redis_Invite                = REDIS_CONF_R2 //用户邀请信信息数据
 	//	发送邮件
 	Redis_Send_Email = REDIS_CONF_R1 //	发送邮件(hash)
 
@@ -748,7 +819,7 @@ const (
 	Redis_DdzqiangGameData     = REDIS_CONF_R10P11 //斗地主-抢地主服务使用的各种数据
 	Redis_DdzlaiGameData       = REDIS_CONF_R10P12 //斗地主-癞子游戏服务使用的各种数据
 	Redis_KingGameData         = REDIS_CONF_R10P13 //king牌游戏服务使用的各种数据
-	Redis_BroadcastData        = REDIS_CONF_R9P1   //广播数据
+	Redis_BroadcastData        = REDIS_CONF_R4     //广播数据
 	Redis_PushData             = REDIS_CONF_R11    //推送服务数据
 	Redis_StdTableData         = REDIS_CONF_R12    //普通场桌子数据
 	Redis_AOFTableData         = REDIS_CONF_R12P1  //AOF桌子数据
@@ -763,7 +834,14 @@ const (
 	Redis_DdzqiangTableData    = REDIS_CONF_R12P11 //斗地主-抢地主游戏桌子数据
 	Redis_DdzlaiTableData      = REDIS_CONF_R12P12 //斗地主-癞子游戏桌子数据
 	Redis_KingTableData        = REDIS_CONF_R12P13 //king牌桌子数据
-
+	Redis_AndarBaharGameData   = REDIS_CONF_R10    //AndarBahar游戏服务使用的各种数据
+	Redis_UpSevenGameData      = REDIS_CONF_R11    //UpSeven游戏服务使用的各种数据
+	Redis_RummyGameData        = REDIS_CONF_R13    //Rummmy游戏服务使用的各种数据
+	Redis_PoolRummyGameData    = REDIS_CONF_R14    //PoolRummy游戏服务使用的各种数据
+	Redis_TeenPattiGameData    = REDIS_CONF_R15    //TeenPatti服务使用的各种数据
+	Redis_PotBlindGameData     = REDIS_CONF_R16    //PotPatti服务使用的各种数据
+	Redis_FruitGameData        = REDIS_CONF_R17    //Fruit服务使用的各种数据
+	Redis_CrazyGameData        = REDIS_CONF_R18    //Fruit服务使用的各种数据
 	//普通场的桌子人数有序集合
 	Redis_TableInfoList0 = REDIS_CONF_R10SLV0 //存放桌子对应数值的数据（桌子列表展示使用）
 	Redis_TableInfoList1 = REDIS_CONF_R10SLV1
@@ -831,6 +909,18 @@ const (
 	Redis_CapsaSusunGameDataSlave8 = REDIS_CONF_R10P6SLV8
 	Redis_CapsaSusunGameDataSlave9 = REDIS_CONF_R10P6SLV9
 
+	//多米诺99配桌数据
+	Redis_RUMMYGameDataSlave0 = REDIS_CONF_R10P5SLV0
+	Redis_RUMMYGameDataSlave1 = REDIS_CONF_R13
+	Redis_RUMMYGameDataSlave2 = REDIS_CONF_R10P5SLV2
+	Redis_RUMMYGameDataSlave3 = REDIS_CONF_R10P5SLV3
+	Redis_RUMMYGameDataSlave4 = REDIS_CONF_R10P5SLV4
+	Redis_RUMMYGameDataSlave5 = REDIS_CONF_R10P5SLV5
+	Redis_RUMMYGameDataSlave6 = REDIS_CONF_R10P5SLV6
+	Redis_RUMMYGameDataSlave7 = REDIS_CONF_R10P5SLV7
+	Redis_RUMMYGameDataSlave8 = REDIS_CONF_R10P5SLV8
+	Redis_RUMMYGameDataSlave9 = REDIS_CONF_R10P5SLV9
+
 	Redis_R_Test = REDIS_CONF_R_TEST_YOGA
 )
 
@@ -858,7 +948,13 @@ const (
 	RP_gameLevelSvr     = "game_table_svr"        //hash 以level为key,存放svrID的数组
 	RP_GambleConfig     = "gamble_config"         //存放百人场配置
 
+	RP_UpSevenConfig = "UpSeven_config" //存放百人场配置
+	RP_AndarBConfig  = "AndarB_config"  //存放百人场配置
+
 	RP_cfrPreflopAllin = "cfr_pf_allin" ////CFR preflop allin选择信息
+
+	RP_CFG_LOTTERY        = "lottery_cfg"
+	RP_PWOER_BALL_HISTORY = "pb_pay_%d"
 
 	//配置信息存放
 	RP_itemTitleCfg         = "itemTitle_config"        //hash 存放itemTitle配置内容
@@ -897,7 +993,12 @@ const (
 	PR_ddzqiang_table_cfg   = "ddzqiang_table_cfg"      //斗地主抢地主桌子配置
 	PR_ddzlai_table_cfg     = "ddzlai_table_cfg"        //斗地主癞子桌子配置
 	PR_King_table_cfg       = "king_table_cfg"          //king牌桌子配置
-
+	PR_AndarBahar_table_cfg = "andarbahar_table_cfg"    //andarbahar桌子配置
+	PR_Rummy_table_cfg      = "rummy_table_cfg"         //拉米桌子配置
+	PR_Pool_Rummy_table_cfg = "pool_rummy_table_cfg"    //pool拉米桌子配置
+	PR_Teen_Patti_table_cfg = "teen_patti_table_cfg"    //teenpatti桌子配置
+	PR_Pot_Blind_table_cfg  = "pot_blind_table_cfg"     //potBlind桌子配置
+	PR_Fruit_table_cfg      = "fruit_table_cfg"         //potBlind桌子配置
 	//包管理系统使用
 	RP_PackageDiff_White          = "package_diff"    //APP升级包差量信息（白名单）
 	RP_Package_Down_Switch        = "pkg_down_switch" //差量包下载模式开关
@@ -945,9 +1046,10 @@ const (
 	RP_DdzqiangTestCards   = "ddzqiang_test_cards"   //斗地主抢地主配牌数据
 	RP_DdzlaiTestCards     = "ddzlai_test_cards"     //斗地主癞子配牌数据
 	RP_KingTestCards       = "king_test_cards"       //king牌配牌数据
+	RP_TeenPatiiTestCards  = "teen_patti_test_cards" //跑牌配牌数据
 
 	//经验级别
-	RP_ExpLevels  = "exp_levels"  //经验级别配置
+	RP_ExpLevels  = "exp_levels"  //经验级配置
 	RP_ExpConfig  = "exp_config"  //经验发放配置
 	RP_ExpConfig2 = "exp_config2" //经验发放配置(按游戏区分）
 
@@ -1001,7 +1103,7 @@ const (
 
 	//AllocServer相关
 	RP_AllocTableHash   = "alloc_hash_%d"    //tid
-	RP_AllocTableZSet   = "alloc_zset_%d_%d" //smallBlind, seats
+	RP_AllocTableZSet   = "alloc_zset_%d_%d" //levelID, seats
 	RP_AllocTableSet    = "alloc_set_%d"     //gameServerID
 	RP_AllocGameServers = "alloc_hash_srv"
 	//SNGAlloc相关
@@ -1016,10 +1118,42 @@ const (
 	RP_gambleJackpot        = "gamble_jackpot"         //int
 	RP_gambleRobots         = "gamble_robots"          //set
 	RP_gambleTestCards      = "gamble_test_cards"      //string
+	//AndarBAlloc相关
+	RP_andarBAllocAvailable = "andarB_alloc_available" //zset(playerCount => serverId)
+	RP_andarBPool           = "andarB_pool"            //int
+	RP_andarBRobots         = "andarB_robots"          //set
+	RP_andarBTestCards      = "andarB_test_cards"      //string
+
+	//UpSeven相关
+	RP_UpSevenAllocAvailable = "upseven_alloc_available" //zset(playerCount => serverId)
+	RP_UpSevenPool           = "upseven_pool"            //int
+	RP_UpSevenRobots         = "upseven_robots"          //set
+	RP_UpSevenTestCards      = "upseven_test_cards"      //string
+
+	RP_TambolaJackpot        = "tambola_jackpot"
+	REDIS_TAMBOLA_GAME_DATA  = "redis.pool.r9"
+	RP_TambolaAllocAvailable = "tambola_alloc_available"
+
 	//PaoPaiAlloc相关
 	RP_AllocWaitingList     = "alloc_waiting_list_%d" //difen 跑牌-正在配桌中的玩家队列。
 	RP_AllocWaitingUser     = "alloc_waiting_user_%d" //uid 跑牌-存放玩家在哪个场次上配桌。
 	RP_AllocWorkingServerId = "alloc_working_id"      //跑牌-存放正在工作中的allocServer的id
+
+	RP_FruitJackPot = "fruit_jackpot" //水果机库存
+	RP_FruitPool    = "fruit_pool"    //水果机彩金
+
+	RP_FruitRecord  = "fruit_record"  //水果机库存
+	RP_FruitControl = "fruit_control" //水果机控制
+	RP_FruitTTL     = "fruit_ttl"     //水果机控制
+
+
+	RP_CrazyJackPot = "crazy_jackpot" //crazy库存
+	RP_CrazyPool    = "crazy_pool"    //crazy彩金
+
+	RP_CrazyRecord  = "crazy_record"  //crazy库存
+	RP_CrazyControl = "crazy_control" //crazy控制
+	RP_CrazyTTL     = "crazy_ttl"     //crazy控制
+
 
 	//每日登录用户bitmap
 	RP_LoginStat = "login_stat_%s"
@@ -1073,7 +1207,7 @@ const (
 	RP_Send_Email = "send_email_%s" //	邮箱地址
 
 	RP_Code_Phone = "code_phone_%s" //	手机验证码
-
+	RP_Code_Mail  = "code_email_%s" //	手机验证码
 	//	邀请相关
 	RP_INVITE_ROBOT = "invite_robot" //	邀请机器人(hash类型)
 
@@ -1107,13 +1241,13 @@ const (
 	RP_FCMAccessToken = "fcm_access_token"
 
 	//桌子数据
-	RP_TableStat = "sb%d_p%d" //游戏ID,小盲,座位
-	RP_TableData = "t%d"      //游戏ID,桌子ID
+	RP_TableStat = "sub%d_%d"  //游戏ID,场次
+	RP_TableData = "t%d_%d_%d" //游戏ID,,场次,桌子ID
 
 	//子游戏配置
-	RP_SubGame     = "sub_game"      //子游戏列表配置
-	RP_SubGameSort = "sub_game_sort" //子游戏列表排序配置
-
+	RP_SubGame        = "sub_game"       //子游戏列表配置
+	RP_SubGameSort    = "sub_game_sort"  //子游戏列表排序配置
+	RP_Withdraw_Limit = "withdraw_limit" //	充值限制
 	//场次配置中的模拟人数
 	RP_GameTypeShowCnt = "game_type_cnt_%d" //场次列表中模拟人数
 
@@ -1184,6 +1318,7 @@ const (
 //不同数据库表使用的连接配置
 const (
 	DB_vmoney        = DB_CONF_USERDB //用户金币表
+	DB_money         = DB_CONF_USERDB //用户金币表
 	DB_user_info     = DB_CONF_USERDB
 	DB_robot_info    = DB_CONF_USERDB //机器人信息表
 	DB_user_ext      = DB_CONF_USERDB //扩展信息表
@@ -1192,11 +1327,15 @@ const (
 	DB_logs          = DB_CONF_LOGS //	用户日志
 	DB_daily_money   = DB_CONF_LOGS //	每日货币统计表
 
+	DB_Teepatti_Test = DB_CONF_USERDB //配牌数据
+	DB_Potblind_Test = DB_CONF_USERDB //配牌数据
+
 	DB_match_rank = DB_CONF_USERDB //比赛名次信息
 
 	DB_config_value = DB_CONF_SUPER_ADMIN //管理后台配置信息落地存放表
 	DB_admin_config = DB_CONF_USERDB      //管理后台配置项落地在mysql中供RPC服务加载使用
 
+	DB_withdraw   = DB_CONF_USERDB //提现数据
 	DB_payment    = DB_CONF_USERDB //支付订单
 	DB_month_card = DB_CONF_USERDB //月卡
 
@@ -1260,10 +1399,23 @@ const BANKRUPT_THRESHOLD = 20000
 const ITEM_SOLD_RETURN_CHIP = 1000 //用户出售物品之后获得的筹码数量
 
 //money server中moneyType
+//const (
+//	MONEY_TYPE_DIAMOND  = 1
+//	MONEY_TYPE_CHIP     = 2
+//	MONEY_TYPE_GOLDCOIN = 3
+//)
+
 const (
-	MONEY_TYPE_DIAMOND  = 1
-	MONEY_TYPE_CHIP     = 2
-	MONEY_TYPE_GOLDCOIN = 3
+	GAME_TYPE_COIN  = 1 //金币房间
+	GAME_TYPE_TRAIN = 2 //练习房间
+
+)
+
+const (
+	MONEY_TYPE_DPOSIT = 1 //充值的金币
+	MONEY_TYPE_COIN   = 2 //赢得的金币
+	MONEY_TYPE_ALL    = 3 //两种类型同时修改
+	//MONEY_TYPE_ERROR  = 3 //错误测金币类型
 )
 
 //在线状态-OnlineStatus
@@ -1282,11 +1434,8 @@ const (
 
 const (
 	//全局状态：客户端拿到这些状态后需要做后续动作。
-	G_STATUS_DEFAULT           = 0 //默认状态
-	G_STATUS_MATCH_MTT_SIGN_IN = 1 //比赛MTT的已签到的状态
-	G_STATUS_MATCH_SNG_SIGN_UP = 2 //比赛SNG已报名
-	G_STATUS_MATCHING          = 3 //玩家在比赛中(备注：比赛玩牌中的玩家，状态定义为比赛中)
-	G_STATUS_IN_TABLE          = 4 //玩家在普通桌子上玩牌中
+	G_STATUS_DEFAULT  = 0 //默认状态
+	G_STATUS_IN_TABLE = 1 //玩家在普通桌子上玩牌中
 )
 
 //定义比赛相关状态
@@ -1300,132 +1449,38 @@ const (
 
 //定义金流及物品改变时的“动作类型”
 const (
-	ACT_TYPE_BEGIN                       = 0
-	ACT_TYPE_REGIST                      = 1   //1 注册
-	ACT_TYPE_BUY                         = 2   //2 充值
-	ACT_TYPE_EXCHANGE_LOSE               = 3   //3 兑换失去
-	ACT_TYPE_EXCHANGE_GET                = 4   //4 兑换获得
-	ACT_TYPE_ROLLBACK                    = 5   //5 回滚（退钱）
-	ACT_TYPE_BUYGIVE                     = 6   //6 购买加赠
-	ACT_TYPE_SIGNIN                      = 7   //7 签到礼包
-	ACT_TYPE_BUY_IN_COIN                 = 8   //8 买入筹码(已作废)
-	ACT_TYPE_REEXCHANGE                  = 9   //9 筹码换回金币(已作废)
-	ACT_TYPE_BANKRUPT_SUBSIDY            = 10  //10 破产补助
-	ACT_TYPE_ADMIN_MANEGEMENT            = 11  //11 管理后台操作
-	ACT_TYPE_GIFTS_EXCHANGE              = 12  //12 礼包兑换
-	ACT_TYPE_MATCH_SIGN                  = 13  //13 报名比赛，扣除报名金币
-	ACT_TYPE_MATCH_ROLLBACK              = 14  //14 取消报名比赛，返还之前扣除的金币
-	ACT_TYPE_TASK_PRIZE                  = 15  //15 任务获奖
-	ACT_TYPE_MATCH_AWARD                 = 16  //16 比赛发奖
-	ACT_TYPE_FIRST_BUY_GIVE              = 17  //17 首充加赠
-	ACT_TYPE_ROBOT_ADD                   = 18  //18 机器人添加金币
-	ACT_TYPE_SIGN_REPAIR                 = 19  //19 补签消耗金币
-	ACT_TYPE_MAIL_ITEMS                  = 20  //20 邮件发放
-	ACT_TYPE_ACTIVITY_ITEMS              = 21  //21 活动发放
-	ACT_TYPE_LADDER_SEASON_REWARD        = 22  //22 天梯段位奖励
-	ACT_TYPE_LADDER_RANK_REWARD          = 23  //23 天梯排行榜奖励
-	ACT_TYPE_ITEM_SOLD                   = 24  //24 道具出售
-	ACT_TYPE_RANK                        = 25  //25 排行榜发放
-	ACT_TYPE_INVITE                      = 26  //26 邀请好友本人领取奖励
-	ACT_TYPE_INVITE_BIND                 = 27  // 27 邀请好友邀请人领取奖励
-	ACT_TYPE_CUSTOM_GAME_LOST            = 28  // 28 好友房失去(非打牌)
-	ACT_TYPE_CUSTOM_GAME_GOT             = 29  // 29 好友房获得(非打牌)
-	ACT_TYPE_CUSTOM_CREATE               = 30  // 30 创建好友房消耗
-	ACT_TYPE_CUSTOM_ROLLBACK             = 31  // 31 创建好友房回滚
-	ACT_TYPE_BROADCAST_SEND              = 32  // 32 发送广播消耗
-	ACT_TYPE_BROADCAST_ROLLBACK          = 33  // 33 发送广播回滚
-	ACT_TYPE_NEWER_SIGN_IN               = 34  // 34 新人签到
-	ACT_TYPE_TASK_PRIZE_NEWER            = 35  // 35 新人任务奖励
-	ACT_TYPE_NEWER_TASK_LEVLE_PRIZE      = 36  // 36 新人阶段任务奖励
-	ACT_TYPE_NEWER_WARE                  = 37  // 37 新人特惠商品
-	ACT_TYPE_NEWER_WARE_GIFT             = 38  // 38 新人特惠商品礼包
-	ACT_TYPE_TASK_PRIZE_DAILY            = 39  // 每日任务奖励
-	ACT_TYPE_TASK_PRIZE_LIFE             = 40  // 生涯任务奖励
-	ACT_TYPE_TASK_PRIZE_GROW             = 41  // 等级任务奖励
-	ACT_TYPE_TASK_PRIZE_ACTIVE           = 42  //任务活跃值奖励
-	ACT_TYPE_EXCHANGE_LOSE_MALL          = 43  //商城兑换
-	ACT_TYPE_QUICK_BUY_SIGN_IN           = 44  //快速购买金币（签到）
-	ACT_TYPE_QUICK_BUY_AVATAR            = 45  //快速购买金币（装扮）
-	ACT_TYPE_QUICK_BUY_PRIVATE_TABLE     = 46  //快速购买金币（私人桌）
-	ACT_TYPE_QUICK_BUY_BANKRUPT          = 47  //快速购买筹码（破产）
-	ACT_TYPE_QUICK_BUY_LOBBY_TABLE       = 48  //快速购买筹码（进场）
-	ACT_TYPE_QUICK_BUY_SNG               = 49  //快速购买筹码（SNG）
-	ACT_TYPE_QUICK_BUY_MTT               = 50  //快速购买筹码（MTT）
-	ACT_TYPE_PARTNER_TRANSFER            = 51  //合作伙伴工具
-	ACT_TYPE_TASK_PRIZE_ACHIEVE          = 52  //成就奖励
-	ACT_TYPE_SET_NICKNAME                = 53  //修改用户昵称
-	ACT_TYPE_ACTIVITY_CENTER             = 54  //活动中心
-	ACT_TYPE_DISCOUNT_NEWER              = 55  //新人特惠礼包 (扣钻石)
-	ACT_TYPE_DISCOUNT_GIFT               = 56  //首充特惠礼包 (扣钻石)
-	ACT_TYPE_FREE_CHIPS                  = 57  //广告免费领取
-	ACT_TYPE_LOGIN_PRIZE_CHIPS           = 58  //登录广告奖励
-	ACT_TYPE_VIP_BUY_CHIP_BONUS          = 59  //vip购买筹码加赠
-	ACT_TYPE_VIP_SUBSIDY                 = 60  //vip破产补助加赠
-	ACT_TYPE_SUPER_VIP_BADGE             = 61  //vip10获得至尊VIP（徽章）
-	ACT_TYPE_BANKRUPT_GOODS              = 62  //破产商品
-	ACT_TYPE_PIGGY_BANK_EXCHANGE         = 63  //小猪储钱罐砸猪扣钻石
-	ACT_TYPE_PIGGY_BANK_BADGE            = 64  //小猪储钱罐徽章
-	ACT_TYPE_ROBOT_REDUCE                = 65  //机器人削减资产
-	ACT_TYPE_SCRATCH_CARD                = 66  //刮刮卡扣钻石
-	ACT_TYPE_SCRATCH_CARD_RECEIVE        = 68  //刮刮卡领取筹码
-	ACT_TYPE_BUY_CAPSA_SUSUN_TOOL        = 69  //购买十三张智能理牌卡
-	ACT_TYPE_UNIQUE_DISCOUNT             = 70  //购买破产专属特惠
-	ACT_TYPE_TEXAS_JACKPOT_WON           = 71  //Jackpot中奖
-	ACT_TYPE_TEXAS_JACKPOT_VIP_EXTRA     = 72  //Jackpot的VIP加成
-	ACT_TYPE_MONTH_CARD                  = 73  //购买月卡
-	ACT_TYPE_RETURN_GIFT_LOGIN           = 74  //回归登录奖励
-	ACT_TYPE_RETURN_GIFT                 = 75  //回归礼包奖励
-	ACT_TYPE_DRESS_GIVE                  = 76  //装扮赠送(主动赠送)
-	ACT_TYPE_DRESS_REQUEST_GIVE          = 77  //装扮赠送(索要)
-	ACT_TYPE_BUY_ALL_DRESS               = 78  //购买全套装扮
-	ACT_TYPE_SLOT_MACHINE_CONSUME        = 79  //老虎机消耗
-	ACT_TYPE_SLOT_MACHINE_REWARD         = 80  //老虎机奖励
-	ACT_TYPE_HAMSTER_BUY                 = 81  //打地鼠购买关卡
-	ACT_TYPE_HAMSTER_REWARD              = 82  //打地鼠奖励
-	ACT_TYPE_BONUS_LOTTERY               = 84  //商城购买钻石赠送彩票
-	ACT_TYPE_LADDER_EXT_REWARD           = 83  //天梯段位额外奖励
-	ACT_TYPE_LADDER_SALARY               = 85  //天梯段位奖励
-	ACT_TYPE_ANNIVERSARY_GIFT            = 86  //周年庆礼包
-	ACT_TYPE_HOMELAND_TREE_STEAL_SUCCESS = 87  //【家园】摇钱树偷成功获得筹码
-	ACT_TYPE_HOMELAND_TREE_STEAL_FAILED  = 88  //【家园】摇钱树偷失败失去筹码
-	ACT_TYPE_HOMELAND_TREE_REWARD        = 89  //【家园】领取摇钱树的奖励
-	ACT_TYPE_HOMELAND_TREE_UPGRADE       = 90  //【家园】摇钱树升级消耗金币
-	ACT_TYPE_HOMELAND_FREE_FOOD          = 91  //【家园】领取免费的食物、肥料
-	ACT_TYPE_HOMELAND_PET_REWARD         = 92  //【家园】领取宠物的奖励
-	ACT_TYPE_HOMELAND_PET_UPGRADE        = 93  //【家园】宠物升级消耗金币
-	ACT_TYPE_HOMELAND_BUY_PET            = 94  //【家园】购买宠物
-	ACT_TYPE_ADMIN_LOTTERY               = 95  //后台赠送彩票
-	ACT_TYPE_CHRISTMAS_GIFT              = 96  //圣诞季活动礼盒奖励
-	ACT_TYPE_CHRISTMAS_RANK              = 97  //圣诞季活动排名奖励
-	ACT_TYPE_PARNTER_MONTH_BILL          = 98  //代理每月月结分成筹码发放
-	ACT_TYPE_PARTNER_WITHDRAWAL          = 99  //合伙人提现
-	ACT_TYPE_INVITE_MANUAL_BIND          = 100 //邀请手动绑定
-
+	ACT_TYPE_BEGIN                = 0
+	ACT_TYPE_REGIST               = 1   //1 注册
+	ACT_TYPE_BUY                  = 2   //2 充值
+	ACT_TYPE_WITHDRAWAL           = 3   //3 提现
+	ACT_TYPE_SIGNIN               = 7   //7 签到礼包
+	ACT_TYPE_BUY_LOTTERY_TICK     = 8   //8 彩票购买
+	ACT_TYPE_ACCEPT_LOTTERY_PRIZE = 9   //9 彩票领奖
+	ACT_TYPE_WEEK_CARD            = 10  //周卡
+	ACT_TYPE_MONTH_CARD           = 11  //周卡
+	ACT_TYPE_TASK_REWARD          = 12  //任务奖励
+	ACT_TYPE_ROBOT_SET            = 101 //机器人设置
+	ACT_TYPE_ADMIN_SET            = 102 //后台管理设置
 	//往前面添加
 	ACT_TYPE_GAME_WIN  = 1000 //玩牌赢得
 	ACT_TYPE_GAME_LOSE = 1001 //玩牌输去
 	ACT_TYPE_END       = 1002 //不要往后面添加
 )
 
+//金币缩放比例
+const (
+	MONEY_SCALE_TIME int64 = 10
+)
+
 //物品类型
 const (
 	ITEM_TYPE_BEGIN      = 0
-	ITEM_TYPE_DIAMOND    = 1  //钻石
-	ITEM_TYPE_GOLDCOIN2  = 2  //金币
-	ITEM_TYPE_CHIP       = 3  //筹码
-	ITEM_TYPE_COMMON     = 4  //一般道具
-	ITEM_TYPE_GIFTS      = 5  //道具礼包
-	ITEM_TYPE_CONTEST    = 6  // 赛事道具
-	ITEM_TYPE_ITEMTITLE  = 7  // 互动道具主题
-	ITEM_TYPE_HERO       = 8  // 角色
-	ITEM_TYPE_DRESS      = 9  // 装扮物品
-	ITEM_TYPE_SCENE      = 10 // 场景
-	ITEM_TYPE_BADGE      = 11 //徽章
-	ITEM_TYPE_ACTIVITY   = 12 //活动类物品	支付场景上报的时候，刮刮卡、月卡类会定义的该值。
-	ITEM_TYPE_HOMELAND   = 13 //家园相关物品：食物、肥料、100经验卡、N经验卡
-	ITEM_TYPE_LOTTERY    = 14 //彩票
-	ITEM_TYPE_MONTH_CARD = 15 //周卡月卡
-	ITEM_TYPE_END        = 20
+	ITEM_TYPE_DEPOSIT    = 1  //充值金币
+	ITEM_TYPE_WINING     = 2  //赢得金币
+	ITEM_TYPE_LOTTERY    = 10 //彩票
+	ITEM_TYPE_MONTH_CARD = 11 //月卡
+	ITEM_TYPE_WEEK_CARD  = 12 //周卡
+	ITEM_TYPE_END        = 1000
 )
 
 //商品类型
@@ -1488,6 +1543,7 @@ const (
 	NSQ_TOPIC_ICON_DOWNLOAD            = "IconDownload"           //从第三方平台下载头像到本地
 	NSQ_TOPIC_LOGIN_LOG                = "LoginLog"               //	登录日志
 	NSQ_TOPIC_PAY_DONE                 = "PayDone"                //	用户支付完成
+	NSQ_TOPIC_FIRST_PAY_DONE           = "FirstPayDone"           //	用户支付完成
 	NSQ_TOPIC_LOGIN_LOG_UPDATE_USER    = "LoginLogUpdateUser"     //	用户支付完成
 	NSQ_TOPIC_PAY_GOOD                 = "PayGood"                //	购买商品后写进日志
 	NSQ_TOPIC_ONLINE_EVENT             = "OnlineEvent"            //在线状态变化事件(V2)
@@ -1497,7 +1553,7 @@ const (
 	NSQ_TOPIC_RECEIVER_BANKRUPT_RECORD = "ReceiverBankruptRecord" //	领取破产奖励记录
 	NSQ_TOPIC_ACTIVITY_DATA            = "ActivityData"           //	活动数据
 	NSQ_TOPIC_ACTIVITY_CENTER          = "ActivityCenter"         //活动中心使用到的数据
-	NSQ_TOPIC_GAMBLE_100P_LOG          = "Gamble100pLog"          //百人场牌局日志
+	NSQ_TOPIC_GAMBLE_LOG               = "GamblepLog"             //百人场牌局日志
 	NSQ_TOPIC_CUSTOM_GAME_USER_STAT    = "CustomGameUserStat"     //私人房用户玩牌统计
 	NSQ_TOPIC_SAMGONG_LOG              = "SamgongLog"             //三公牌局日志
 	NSQ_TOPIC_GAME_PAOPAI_LOG          = "GamePaoPaiLog"          //跑牌牌局日志
@@ -1515,6 +1571,14 @@ const (
 	NSQ_TOPIC_SNG_TABLE_EVENT          = "SNGTableEvent"          //SNG桌子事件
 	NSQ_TOPIC_GAME_SERVER_EVENT        = "GameServerEvent"        //游戏服务事件
 	NSQ_TOPIC_HOMELAND_ACTION          = "HomelandAction"         //家园关联行为
+	NSQ_TOPIC_UPSEVEN_LOG              = "10001"                  //upSeven游戏日志
+	NSQ_TOPIC_ANDERB_LOG               = "10002"                  //AnderB游戏日志
+	NSQ_TOPIC_RUMMY_LOG                = "10003"                  //rummy牌局日志
+	NSQ_TOPIC_POOL_RUMMY_LOG           = "10004"                  //poolrummy大米牌局日志
+	NSQ_TOPIC_TEEN_PATTI_LOG           = "10005"                  //teenpatti日志
+	NSQ_TOPIC_POT_BLIND_LOG            = "10007"                  //potblind日志
+	NSQ_TOPIC_SLOT_FRUIT_LOG            = "10008"                  //水果机日志
+	NSQ_TOPIC_UPDATE_POOL_LOG          = "UpdatePoolLog"          //更新数位日志
 )
 
 const (
@@ -1597,30 +1661,6 @@ const (
 )
 
 const (
-	AVATAR_BEGIN int32 = iota
-	AVATAR_CLOTH       //1
-	AVATAR_HAIR        //头发
-	AVATAR_GLASSES
-	AVATAR_BEARD       //胡子
-	AVATAR_HAND_LEFT_1 //5
-	AVATAR_HAND_LEFT_2
-	AVATAR_HAND_LEFT_3
-	AVATAR_HAND_LEFT_4
-	AVATAR_HAND_LEFT_5
-	AVATAR_HAND_RIGHT_1 // 10
-	AVATAR_HAND_RIGHT_2
-	AVATAR_HAND_RIGHT_3
-	AVATAR_HAND_RIGHT_4
-	AVATAR_HAND_RIGHT_5
-	AVATAR_LUCK_ITEM   //15 吉祥物
-	AVATAR_BADGE       //徽章
-	AVATAR_SCENE       //场景
-	AVATAR_WRIST_LEFT  //左手腕
-	AVATAR_WRIST_RIGHT //右手腕
-	AVATAR_END
-)
-
-const (
 	ONLINE_EVENT_LOGIN     = 1 //登录
 	ONLINE_EVENT_LOGOUT    = 2 //注销登录
 	ONLINE_EVENT_ENTER     = 3 //进入房间
@@ -1646,25 +1686,35 @@ const (
 )
 
 const (
-	UPSTREAM_TYPE_REGULAR_GAME = 1  //普通场游戏
-	UPSTREAM_TYPE_SNG_MATCH    = 2  //SNG比赛
-	UPSTREAM_TYPE_MTT_MATCH    = 3  //MTT比赛
-	UPSTREAM_TYPE_CUSTOM_GAME  = 4  //私人房
-	UPSTREAM_TYPE_AOF_GAME     = 5  //AOF场
-	UPSTREAM_TYPE_GAMBLE_100P  = 6  //押大小百人场
-	UPSTREAM_TYPE_PAOPAI       = 7  //跑牌
-	UPSTREAM_TYPE_SAMGONG      = 8  //三公
-	UPSTREAM_TYPE_ZHAJINHUA    = 9  //炸金花
-	UPSTREAM_TYPE_DOMINO99     = 10 //多米诺99
-	UPSTREAM_TYPE_BLACK_JACK   = 11 //21点
-	UPSTREAM_TYPE_LAMI         = 12 //印度拉米
-	UPSTREAM_TYPE_CAPSA_SUSUN  = 13 //十三张
-	UPSTREAM_TYPE_KING         = 14 //King牌
-	UPSTREAM_TYPE_DUMMY        = 15 //泰国大米
-	UPSTREAM_TYPE_DDZBU        = 16 //斗地主不洗牌
-	UPSTREAM_TYPE_DDZJIAO      = 17 //斗地主叫地主
-	UPSTREAM_TYPE_DDZQIANG     = 18 //斗地主抢地主
-	UPSTREAM_TYPE_DDZLAI       = 19 //斗地主癞子
+	//UPSTREAM_TYPE_REGULAR_GAME = 1     //普通场游戏
+	//UPSTREAM_TYPE_SNG_MATCH    = 2     //SNG比赛
+	//UPSTREAM_TYPE_MTT_MATCH    = 3     //MTT比赛
+	//UPSTREAM_TYPE_CUSTOM_GAME  = 4     //私人房
+	//UPSTREAM_TYPE_AOF_GAME     = 5     //AOF场
+	//UPSTREAM_TYPE_GAMBLE_100P  = 6     //押大小百人场
+	//UPSTREAM_TYPE_PAOPAI       = 7     //跑牌
+	//UPSTREAM_TYPE_SAMGONG      = 8     //三公
+	//UPSTREAM_TYPE_ZHAJINHUA    = 9     //炸金花
+	//UPSTREAM_TYPE_DOMINO99     = 10    //多米诺99
+	//UPSTREAM_TYPE_BLACK_JACK   = 11    //21点
+	//UPSTREAM_TYPE_LAMI         = 12    //印度拉米
+	//UPSTREAM_TYPE_CAPSA_SUSUN  = 13    //十三张
+	//UPSTREAM_TYPE_KING         = 14    //King牌
+	//UPSTREAM_TYPE_DUMMY        = 15    //泰国大米
+	//UPSTREAM_TYPE_DDZBU        = 16    //斗地主不洗牌
+	//UPSTREAM_TYPE_DDZJIAO      = 17    //斗地主叫地主
+	//UPSTREAM_TYPE_DDZQIANG     = 18    //斗地主抢地主
+	//UPSTREAM_TYPE_DDZLAI       = 19    //斗地主癞子
+	//UPSTREAM_TYPE_ANDARBAHAR   = 20    //AndarBahar
+	UPSTREAM_TYPE_UPSEVEN    = 10001 //unseven百人场
+	UPSTREAM_TYPE_ANDARB     = 10002 //AndarB百人场
+	UPSTREAM_TYPE_RUMMY      = 10003 //印度Rummy
+	UPSTREAM_TYPE_POOL_RUMMY = 10004 //印度poolRummy
+	UPSTREAM_TYPE_TEEN_PATTI = 10005 //印度扎金花
+	UPSTREAM_TYPE_TAMBOLA    = 10006 //TAMBOLA
+	UPSTREAM_TYPE_POT_BLIND  = 10007 //PotBlind
+	UPSTREAM_TYPE_FRUIT      = 10008 //水果机
+	UPSTREAM_TYPE_SOON       = 99999 //按钮
 )
 
 const (
@@ -1779,16 +1829,21 @@ const (
 const (
 	KICK_BY_USER                  = 1  //被用户踢
 	KICK_BY_ADMIN                 = 2  //被管理员踢
-	KICK_FOR_NO_CUSTOM_GAME       = 3  //在规定时间内没有开始好友房牌局踢出
-	KICK_FOR_CUSTOM_GAME_TIMEOUT  = 4  //好友房时间达期踢出
-	KICK_FOR_CUSTOM_NO_USER       = 5  //好友房规定时间内无人坐下解散踢出
+	KICK_FOR_ROBOT_MAX            = 3  //到达机器人最大局数
+	KICK_FOR_ROBOT_KICK_CON       = 4  //到达机器人设定概率
 	KICK_FOR_SERVER_ERROR         = 6  //因服务器内部错误踢出
 	KICK_FOR_OFFLINE              = 7  //掉线
 	KICK_FOR_MONEY_NOT_ENOUGH     = 8  //资金不足
 	KICK_FOR_MAX_IDLE_TIMES       = 9  //太久没有参与游戏
-	KICK_FOR_USER_NOT_CLICK_READY = 10 //因为一局牌结束之后，玩家一直不点击“准备”按钮，系统将其踢出。【跑牌使用】
-	KICK_FOR_SINGLE_LONG_WAIT     = 11 //因为独自一人准备太久无人匹配，客户端收到这个原因后重新帮助该玩家点击配桌。【跑牌使用】
-	KICK_FOR_NOT_FULL_TABLE       = 12 //因为桌子没有满，需要解散重新配桌。【跑牌使用】
+	KICK_FOR_USER_NOT_CLICK_READY = 10 //因为一局牌结束之后，玩家一直不点击“准备”按钮，系统将其踢出。
+	KICK_FOR_SINGLE_LONG_WAIT     = 11 //因为独自一人准备太久无人匹配，客户端收到这个原因后重新帮助该玩家点击配桌。
+	KICK_FOR_NOT_FULL_TABLE       = 12 //因为桌子没有满，需要解散重新配桌。
+	KICK_FOR_NOT_READY_TABLE      = 13 //没有准备的玩家提出
+	KICK_BY_SERVER_RETIRED        = 14 //服务器关闭
+	KICK_BY_TIME_OUT              = 15 //超时踢出
+	KICK_BY_CHANGE_TABLE          = 16 //换桌踢出
+	KICK_FOR_MONEY_MORE_LIMIET    = 17 //资金超过房间限制
+	KICK_FOR_WIN_MORE_TIME        = 18 //连续赢3次踢出
 )
 
 //用户状态
@@ -1891,3 +1946,47 @@ const (
 	RES_TYPE_LAZY_FOR_COUNTRY = "lazy4C"    //延迟加载资源(By Country)
 	RES_TYPE_LAZY             = "lazy"      //延迟加载资源(Not By Country)
 )
+const (
+	APPID_ANDROID_MAIN      int32 = 1
+	APPID_IPHONE_MAIN       int32 = 2
+	APPID_WIN_STEAM         int32 = 3   //STEAM
+	APPID_ROBOT             int32 = 4   //虚拟生成的机器人ID
+	APPID_DOMINO99_ANDROID  int32 = 10  //多米诺99安卓
+	APPID_ANDROID_OPPO      int32 = 101 //联运的APPID（由于历史原因 userdb.userinfo中的platform字段为tinyint，最大127）
+	APPID_ANDROID_VIVO      int32 = 102 //联运的APPID VIVO
+	APPID_ANDROID_HUAWEI    int32 = 103 //华为
+	APPID_ANDROID_TRANSSION int32 = 104 //TRANSSION-传音
+)
+
+const (
+	PAY_SYS_GOOGLEPLAY int32 = 1
+	PAY_SYS_APPLESTORE int32 = 2
+	PAY_SYS_CODAPAY    int32 = 3
+	PAY_SYS_OPPO       int32 = 4
+	PAY_SYS_VIVO       int32 = 5
+	PAY_SYS_HUAWEI     int32 = 6
+	PAY_SYS_STEAM      int32 = 7
+	PAY_SYS_TRANSSION  int32 = 8
+)
+
+const (
+	PUSH_SERVICE_FCM  = 1
+	PUSH_SERVICE_APNS = 2
+)
+
+const (
+	FEEDBACK_STATUS_NEW      = 1
+	FEEDBACK_STATUS_ANSWERED = 2
+	FEEDBACK_STATUS_APPEND   = 3
+	FEEDBACK_STATUS_IGNORE   = 4
+
+	FEEDBACK_TYPE_OTHER = 0 //其它(默认)
+	FEEDBACK_TYPE_ORDER = 1 //订单相关
+	FEEDBACK_TYPE_PLAY  = 2 //玩牌相关
+)
+
+const (
+	WITHDRAWAL_MIN_COIN = 1000 //用户最低提现筹码要求
+)
+
+const ALL_ONLINE_BOX_FINISHED_INDEX = -1 //所有任务已经完成时，使用此数值
