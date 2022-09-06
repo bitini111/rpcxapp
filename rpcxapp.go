@@ -1,6 +1,8 @@
 package rpcxapp
 
 import (
+	"github.com/bitini111/rpcxapp/conf"
+	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
 	"log"
 	"os"
 	"os/signal"
@@ -8,12 +10,11 @@ import (
 
 	"github.com/rcrowley/go-metrics"
 	"github.com/smallnest/rpcx/server"
-	"githup.bitini111.rpcxapp/conf"
-	serverplugin "githup.bitini111.rpcxapp/plugin/etcdv3/server"
 )
 
 func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
+
 	r := serverplugin.EtcdV3RegisterPlugin{
 		ServiceAddress: conf.CmdConf.Network + "@" + conf.CmdConf.IpAddress, //服务监听的ip端口
 		EtcdServers:    conf.GetEtcdAddr(),                                  //zookeeper地址
