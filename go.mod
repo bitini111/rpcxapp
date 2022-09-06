@@ -1,4 +1,4 @@
-module githup.bitini111.rpcxapp
+module github.com.bitini111.rpcxapp
 
 go 1.16
 
