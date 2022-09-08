@@ -1,12 +1,14 @@
 package rpcxapp
 
 import (
+	"context"
 	"github.com/bitini111/rpcxapp/conf"
 	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
+	"time"
 
 	"github.com/rcrowley/go-metrics"
 	"github.com/smallnest/rpcx/server"
@@ -32,8 +34,7 @@ func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 
 	//srv.RegisterOnShutdown(shutdown)
 
-	go WaitTerminationSignal(srv,shutdown)
-
+	go WaitTerminationSignal(srv, shutdown)
 
 	srv.RegisterName(conf.CmdConf.ServerName, ctl, conf.CmdConf.ServerName) //服务名，以及服务的接收方法
 	er := srv.Serve(conf.CmdConf.Network, conf.CmdConf.IpAddress)
@@ -41,21 +42,20 @@ func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 		log.Fatalln(err)
 	}
 
-
 	return nil
 }
 
-func WaitTerminationSignal(ss *server.Server,shutdown func(s *server.Server))     {
+func WaitTerminationSignal(ss *server.Server, shutdown func(s *server.Server)) {
 	ch := make(chan os.Signal, 1)
-	signal.Notify(ch, syscall.SIGINT,syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGUSR1, syscall.SIGTERM)
+	signal.Notify(ch, syscall.SIGINT, syscall.SIGQUIT, syscall.SIGKILL, syscall.SIGUSR1, syscall.SIGTERM)
 	defer func() {
 		signal.Stop(ch)
 		close(ch)
 	}()
 	<-ch
 	conf.CloseEtcdWatch()
-	shutdown(ss)
-	ss.Close()
-
+	ss.RegisterOnShutdown(shutdown)
+	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
+	ss.Shutdown(ctx)
 	return
 }
