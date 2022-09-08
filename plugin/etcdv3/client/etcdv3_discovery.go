@@ -85,7 +85,7 @@ func NewEtcdV3DiscoveryStore(basePath string, servicePath string, kv store.Store
 		basePath = basePath[1:]
 	}
 
-	nodePath := basePath + "/L/" + servicePath
+	nodePath:=basePath + "/" + servicePath
 	d := &EtcdV3Discovery{basePath: nodePath, kv: kv}
 	d.stopCh = make(chan struct{})
 
@@ -99,12 +99,12 @@ func NewEtcdV3DiscoveryStore(basePath string, servicePath string, kv store.Store
 
 	var realIPPORT []*store.KVPair
 
-	nodeLen := len(nodePath)
+	nodeLen:=len(nodePath)
 	for _, p := range ps {
-		if nodeLen >= len(p.Key) {
+		if nodeLen>=len(p.Key){
 			continue
 		}
-		key := p.Key[nodeLen+1 : len(p.Key)]
+		key:=p.Key[nodeLen+1:len(p.Key)]
 		var ID int
 		ID, err = strconv.Atoi(key)
 		if ID <= 0 {
@@ -113,7 +113,7 @@ func NewEtcdV3DiscoveryStore(basePath string, servicePath string, kv store.Store
 
 		//Get All the Versions of the ID
 		//BASE/L/ServerName/ServerID
-		strPerID := fmt.Sprintf("%s/%d", nodePath, ID)
+		strPerID := fmt.Sprintf("%s/%d",nodePath,ID)
 		VersionPerID, err := kv.Get(strPerID)
 		if err != nil {
 			log.Infof("get kv.Get path:%s, err: %v", strPerID, err)
@@ -141,9 +141,9 @@ func NewEtcdV3DiscoveryStore(basePath string, servicePath string, kv store.Store
 		}
 
 		//Get the latest Version
-		for _, pp := range etcServID.Vers {
-			if pp.Ver == topV {
-				realIPPORT = append(realIPPORT, &store.KVPair{Key: strconv.Itoa(int(etcServID.ID)), Value: []byte(pp.IP)})
+		for _, p := range etcServID.Vers {
+			if p.Ver == topV {
+				realIPPORT = append(realIPPORT, &store.KVPair{Key: strconv.Itoa(int(etcServID.ID)), Value: []byte(p.IP)})
 			}
 		}
 	}
@@ -281,7 +281,7 @@ func (d *EtcdV3Discovery) watch() {
 		d.kv.Close()
 	}()
 
-rewatch:
+
 	for {
 		var err error
 		var c <-chan []*store.KVPair
@@ -313,6 +313,7 @@ rewatch:
 			log.Errorf("can't watch %s: %v", d.basePath, err)
 			return
 		}
+	rewatch:
 		for {
 			select {
 			case <-d.stopCh:
@@ -331,7 +332,7 @@ rewatch:
 				}
 
 				for _, p := range ps {
-					arr := strings.Split(p.Key, "/")
+					arr:=strings.Split(p.Key,"/")
 					var ID int
 					ID, err = strconv.Atoi(arr[len(arr)-1])
 					if ID <= 0 {
@@ -361,7 +362,6 @@ rewatch:
 
 					//pairs = append(pairs, &KVPair{Key: p.Key, Value: string(p.Value)})
 				}
-				d.pairs = pairs
 				d.pairsMu.Lock()
 				d.pairs = pairs
 				d.pairsMu.Unlock()
@@ -400,7 +400,7 @@ func (d *EtcdV3Discovery) IsClosed(basePath, servicePath string) bool {
 	if len(basePath) > 1 && strings.HasSuffix(basePath, "/") {
 		basePath = basePath[:len(basePath)-1]
 	}
-	_, err := d.kv.List(basePath + "/L/" + servicePath)
+	_, err := d.kv.List(basePath + "/" + servicePath)
 	if err != nil && err != store.ErrKeyNotFound { //未找到则证明这条链路是没有问题的
 		log.Errorf("get list error err=%s", err)
 		return true

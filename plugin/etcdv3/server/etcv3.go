@@ -90,9 +90,9 @@ func (p *EtcdV3RegisterPlugin) Start() error {
 		}
 	}
 
-	if p.serverNamePath == "" {
-		p.serverNamePath = "L"
-	}
+	//if p.serverNamePath == "" {
+	//	p.serverNamePath = "L"
+	//}
 
 	if p.ServerID == 0 {
 		log.Errorf("The ID of Server is NULL")
@@ -115,23 +115,21 @@ func (p *EtcdV3RegisterPlugin) Start() error {
 		p.kv = kv
 	}
 
-	if p.BasePath[0] == '/' {
-		p.BasePath = p.BasePath[1:]
-	}
-
-	err := p.kv.Put(p.BasePath, []byte("rpcx_path"), &store.WriteOptions{IsDir: true})
-	if err != nil && !strings.Contains(err.Error(), "Not a file") {
-		log.Errorf("cannot create etcd path %s: %v", p.BasePath, err)
-		return err
-	}
+	//if p.BasePath[0] == '/' {
+	//	p.BasePath = p.BasePath[1:]
+	//}
+	//
+	//err := p.kv.Put(p.BasePath, []byte("rpcx_path"), &store.WriteOptions{IsDir: true})
+	//if err != nil && !strings.Contains(err.Error(), "Not a file") {
+	//	log.Errorf("cannot create etcd path %s: %v", p.BasePath, err)
+	//	return err
+	//}
 
 	return nil
 }
 
 // Stop unregister all services.
 func (p *EtcdV3RegisterPlugin) Stop() error {
-	close(p.dying)
-	<-p.done
 	if p.kv == nil {
 		kv, err := libkv.NewStore(estore.ETCDV3, p.EtcdServers, p.Options)
 		if err != nil {
@@ -172,12 +170,11 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 	var err error
 	exist, err = p.kv.Exists(path)
 	if err != nil {
-		log.Errorf("Exist err zk path %s: %v", path, err)
+		log.Errorf("Exist err etcd path %s: %v", path, err)
 		return err
 	}
 	var jsonIDVerIpAddr []byte
 
-	var needNotify bool
 	if exist {
 		//Find the ids list of json
 		//ps, err1 := p.kv.List(nodePath)
@@ -204,10 +201,10 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 			if pv.Ver != version {
 				Vers = append(Vers, pv)
 			} else {
-				if !isOpenCleanOldNodeInfo && pv.IP == IPAddr {
-					//do NOTHING zk has exist nodePath
-					goto doNothing
-				}
+				//if !isOpenCleanOldNodeInfo && pv.IP == IPAddr {
+				//	//do NOTHING zk has exist nodePath
+				//	goto doNothing
+				//}
 				if pv.IP == IPAddr {
 					arr := strings.Split(IPAddr, "@")
 					if len(arr) != 2 {
@@ -215,21 +212,29 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 						goto doNothing
 					}
 					//检测老的服务连接是否存活
-					if c, err := net.DialTimeout(arr[0], arr[1], time.Second*3); err != nil {
-						//连接超时，此时处理方式需要待确定，有可能网络抖动导致3秒内连接不上，此处发送的概率较低
-						//目前的方式记录下错误信息，同时替换节点信息
-						if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
-							log.Errorf("connect timeout %s\n", err)
+					switch arr[0] {
+					case "tcp":
+						{
+							if c, err := net.DialTimeout(arr[0], arr[1], time.Second*3); err != nil {
+								//连接超时，此时处理方式需要待确定，有可能网络抖动导致3秒内连接不上，此处发送的概率较低
+								//目前的方式记录下错误信息，同时替换节点信息
+								if netErr, ok := err.(net.Error); ok && netErr.Timeout() {
+									log.Errorf("connect timeout %s\n", err)
+								}
+								log.Errorf("old ip=%s return connect error %s\n", IPAddr, err)
+								continue //服务不存在,删除节点
+							} else {
+								//老服务存在，不需要添加节点
+								c.Close()
+								goto doNothing
+							}
+							log.Errorf("nothing change add new ip address")
 						}
-						log.Errorf("old ip=%s return connect error %s\n", IPAddr, err)
-						continue //服务不存在,删除节点
-					} else {
-						//老服务存在，不需要添加节点
-						c.Close()
-						goto doNothing
 					}
+
+
 				}
-				log.Errorf("nothing change add new ip address")
+
 				//IP地址不相同则继续添加新的节点
 			}
 			/* --- 保证修改唯一值为自己所拥有,不再跳出
@@ -260,7 +265,6 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 			log.Errorf("json.Marshal json: %s: %v", string(jsonIDVerIpAddr), err)
 			return err
 		}
-		needNotify = true
 	} else {
 
 		zkVers := &etcdVersIP{Ver: version, IP: IPAddr, Unique: p.uniqueId}
@@ -273,7 +277,6 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 			return err
 		}
 		//Add a new node to zk path will automatic notify, NO need manual do it
-		needNotify = false
 	}
 
 	err = p.kv.Put(path, jsonIDVerIpAddr, &store.WriteOptions{TTL: p.UpdateInterval * 2})
@@ -282,13 +285,13 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 		return err
 	}
 
-	if needNotify {
-		err = p.notifyWatcher(p.BasePath, p.ServiceName)
-		if err != nil {
-			log.Errorf("cannot notifyWatcher zk path %s: %v", path, err)
-			return err
-		}
-	}
+	//if needNotify {
+	//	err = p.notifyWatcher(p.BasePath, p.ServiceName)
+	//	if err != nil {
+	//		log.Errorf("cannot notifyWatcher zk path %s: %v", path, err)
+	//		return err
+	//	}
+	//}
 
 doNothing:
 	return nil
@@ -299,7 +302,7 @@ func (p *EtcdV3RegisterPlugin) delVerIPAddrJson(path string, version string) err
 	var err error
 	exist, err = p.kv.Exists(path)
 	if err != nil {
-		log.Errorf("Exist err zk path %s: %v", path, err)
+		log.Errorf("Exist err etcd path %s: %v", path, err)
 		return err
 	}
 
@@ -350,48 +353,13 @@ func (p *EtcdV3RegisterPlugin) delVerIPAddrJson(path string, version string) err
 			log.Errorf("cannot create zk path %s: %v", path, err)
 			return err
 		}
-		err = p.notifyWatcher(p.BasePath, p.ServiceName)
-		if err != nil {
-			log.Errorf("cannot notifyWatcher zk path %s: %v", path, err)
-			return err
-		}
+		//err = p.notifyWatcher(p.BasePath, p.ServiceName)
+		//if err != nil {
+		//	log.Errorf("cannot notifyWatcher zk path %s: %v", path, err)
+		//	return err
+		//}
 	}
 doNothing:
-	return nil
-}
-
-func (p *EtcdV3RegisterPlugin) notifyWatcher(base string, name string) error {
-
-	nodePath := fmt.Sprintf("%s/%s/%s/%d", base, "L", name, -1)
-
-	var exist bool
-	var err error
-	exist, err = p.kv.Exists(nodePath)
-	_, err = p.kv.Exists(nodePath)
-	if err != nil {
-		log.Errorf("Exist err zk path %s: %v", nodePath, err)
-		return err
-	}
-
-	if exist {
-		err = p.kv.Delete(nodePath)
-		if err != nil {
-			log.Errorf("Delete err zk path %s: %v", nodePath, err)
-			return err
-		}
-	} else {
-		err = p.kv.Put(nodePath, []byte(""), &store.WriteOptions{IsDir: true})
-		if err != nil {
-			log.Errorf("Delete err zk path %s: %v", nodePath, err)
-			return err
-		}
-	}
-	//err = p.kv.Put(nodePath, []byte(""), &store.WriteOptions{IsDir: true})
-	//if err != nil {
-	//	log.Errorf("Delete err zk path %s: %v", nodePath, err)
-	//	return err
-	//}
-
 	return nil
 }
 
@@ -438,26 +406,27 @@ func (p *EtcdV3RegisterPlugin) Register(name string, rcvr interface{}, metadata 
 	p.uniqueId = fmt.Sprintf("%x", md5.Sum([]byte(text)))
 	p.uniqueId = fmt.Sprintf("%s-%s", time.Now().Format("20060102 15:04:05"), p.uniqueId)
 
-	err = p.kv.Put(p.BasePath, []byte("rpcx_path"), &store.WriteOptions{IsDir: true})
-	if err != nil && !strings.Contains(err.Error(), "Not a file") {
-		log.Errorf("cannot create etcd path %s: %v", p.BasePath, err)
-		return err
-	}
-	//
-	nodePath := fmt.Sprintf("%s/%s/%s", p.BasePath, p.serverNamePath, name)
-	err = p.kv.Put(nodePath, []byte(name), &store.WriteOptions{IsDir: true})
-	if err != nil && !strings.Contains(err.Error(), "Not a file") {
-		log.Errorf("cannot create etcd path %s: %v", nodePath, err)
-		return err
-	}
+	//err = p.kv.Put(p.BasePath, []byte("rpcx_path"), &store.WriteOptions{IsDir: true})
+	//if err != nil && !strings.Contains(err.Error(), "Not a file") {
+	//	log.Errorf("cannot create etcd path %s: %v", p.BasePath, err)
+	//	return err
+	//}
+	////
+	//nodePath := fmt.Sprintf("%s/%s/%s", p.BasePath, p.serverNamePath, name)
+	//err = p.kv.Put(nodePath, []byte(name), &store.WriteOptions{IsDir: true})
+	//if err != nil && !strings.Contains(err.Error(), "Not a file") {
+	//	log.Errorf("cannot create etcd path %s: %v", nodePath, err)
+	//	return err
+	//}
 
-	nodePath = fmt.Sprintf("%s/%s/%s/%d", p.BasePath, p.serverNamePath, name, p.ServerID)
+	nodePath := fmt.Sprintf("%s/%s/%d", p.BasePath,  name, p.ServerID)
 	err = p.addVerIPAddrJson(nodePath, p.ServerID, p.Version, p.ServiceAddress)
 	if err != nil {
 		log.Errorf("addVerIPAddrJson err etcd path %s: %v", nodePath, err)
 		return err
 	}
 	Fname := nodePath + "#" + p.Version
+	//Fname := nodePath
 	p.Services = append(p.Services, Fname)
 
 	p.metasLock.Lock()
@@ -493,21 +462,21 @@ func (p *EtcdV3RegisterPlugin) Unregister(name string) (err error) {
 		p.kv = kv
 	}
 
-	err = p.kv.Put(p.BasePath, []byte("rpcx_path"), &store.WriteOptions{IsDir: true})
-	if err != nil && !strings.Contains(err.Error(), "Not a file") {
-		log.Errorf("cannot create etcd path %s: %v", p.BasePath, err)
-		return err
-	}
+	//err = p.kv.Put(p.BasePath, []byte("rpcx_path"), &store.WriteOptions{IsDir: true})
+	//if err != nil && !strings.Contains(err.Error(), "Not a file") {
+	//	log.Errorf("cannot create etcd path %s: %v", p.BasePath, err)
+	//	return err
+	//}
+	//
+	//nodePath := fmt.Sprintf("%s/%s", p.BasePath, name)
+	//err = p.kv.Put(nodePath, []byte(name), &store.WriteOptions{IsDir: true})
+	//if err != nil && !strings.Contains(err.Error(), "Not a file") {
+	//	log.Errorf("cannot create etcd path %s: %v", nodePath, err)
+	//	return err
+	//}
 
-	nodePath := fmt.Sprintf("%s/%s", p.BasePath, name)
-	err = p.kv.Put(nodePath, []byte(name), &store.WriteOptions{IsDir: true})
-	if err != nil && !strings.Contains(err.Error(), "Not a file") {
-		log.Errorf("cannot create etcd path %s: %v", nodePath, err)
-		return err
-	}
-
-	nodePath = fmt.Sprintf("%s/%s/%s", p.BasePath, name, p.ServiceAddress)
-
+	nodePath := fmt.Sprintf("%s/%s/%d", p.BasePath, name, p.ServerID)
+	fmt.Sprintf("nodePath")
 	err = p.kv.Delete(nodePath)
 	if err != nil {
 		log.Errorf("cannot create consul path %s: %v", nodePath, err)
@@ -531,39 +500,6 @@ func (p *EtcdV3RegisterPlugin) Unregister(name string) (err error) {
 	delete(p.metas, name)
 	p.metasLock.Unlock()
 	return
-}
-
-func (p *EtcdV3RegisterPlugin) GetkeyString(path string) (error, []byte) {
-	var (
-		exist     bool
-		err       error
-		jsonValue bytes.Buffer
-	)
-
-	if path[0] == '/' {
-		path = path[1:]
-	}
-
-	exist, err = p.kv.Exists(path)
-	if err != nil {
-		log.Errorf("Exist err zk path %s: %v", path, err)
-		return err, jsonValue.Bytes()
-	}
-	if !exist {
-		return fmt.Errorf("%s is empty", path), jsonValue.Bytes()
-	}
-
-	//Find the ids list of json
-	//ps, err1 := p.kv.List(nodePath)
-	ps, err := p.kv.Get(path)
-	if err != nil {
-		log.Errorf("p.kv.List zk path %s: %v", path, err)
-		return err, nil
-	}
-
-	jsonValue.Write(ps.Value)
-	return nil, jsonValue.Bytes()
-
 }
 
 //版本号转成数字
