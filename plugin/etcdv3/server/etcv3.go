@@ -22,10 +22,6 @@ import (
 	metrics "github.com/rcrowley/go-metrics"
 )
 
-func init() {
-	etcd.Register()
-}
-
 //是否开启清除老节点
 var isOpenCleanOldNodeInfo = false
 
@@ -76,9 +72,24 @@ type EtcdV3RegisterPlugin struct {
 	uniqueId string
 }
 
+//NewPlugin
+
+func NewEtcdV3Plugin(serviceAddress string, etcdServers []string, BasePath string, version string, serverID int32) *EtcdV3RegisterPlugin {
+	item := &EtcdV3RegisterPlugin{
+		ServiceAddress: serviceAddress, //服务监听的ip端口
+		EtcdServers:    etcdServers,    //zookeeper地址
+		BasePath:       BasePath,       //zk的目录
+		Metrics:        metrics.NewRegistry(),
+		Version:        version,  //rpc的版本
+		ServerID:       serverID, //rpc的svrid
+		//UpdateInterval: time.Minute,
+	}
+	return item
+}
+
 // Start starts to connect etcd cluster
 func (p *EtcdV3RegisterPlugin) Start() error {
-
+	etcd.Register()
 	if p.Version == "" {
 		log.Errorf("The Version of Server is NULL")
 		return fmt.Errorf("The Version of Server is NULL")
@@ -231,7 +242,6 @@ func (p *EtcdV3RegisterPlugin) addVerIPAddrJson(path string, serverId int32, ver
 							log.Errorf("nothing change add new ip address")
 						}
 					}
-
 
 				}
 
@@ -419,7 +429,7 @@ func (p *EtcdV3RegisterPlugin) Register(name string, rcvr interface{}, metadata 
 	//	return err
 	//}
 
-	nodePath := fmt.Sprintf("%s/%s/%d", p.BasePath,  name, p.ServerID)
+	nodePath := fmt.Sprintf("%s/%s/%d", p.BasePath, name, p.ServerID)
 	err = p.addVerIPAddrJson(nodePath, p.ServerID, p.Version, p.ServiceAddress)
 	if err != nil {
 		log.Errorf("addVerIPAddrJson err etcd path %s: %v", nodePath, err)
