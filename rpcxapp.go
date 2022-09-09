@@ -7,14 +7,15 @@ package rpcxapp
 
 import (
 	"context"
-	"github.com/bitini111/rpcxapp/conf"
-	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
-	"github.com/smallnest/rpcx/server"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/bitini111/rpcxapp/conf"
+	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
+	"github.com/smallnest/rpcx/server"
 )
 
 func Run(ctl interface{}, shutdown func(s *server.Server)) error {
@@ -27,9 +28,7 @@ func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 		os.Exit(1)
 		return err
 	}
-
-	//srv.RegisterOnShutdown(shutdown)
-
+	srv.Plugins.Add(r)
 	go WaitTerminationSignal(srv, shutdown)
 
 	srv.RegisterName(conf.CmdConf.ServerName, ctl, conf.CmdConf.ServerName) //服务名，以及服务的接收方法
