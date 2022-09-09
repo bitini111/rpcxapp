@@ -1,30 +1,26 @@
 package rpcxapp
 
+//go:generate go env -w GO111MODULE=on
+//go:generate go env -w GOPROXY=https://goproxy.cn,direct
+//go:generate go mod tidy
+//go:generate go mod download
+
 import (
 	"context"
 	"github.com/bitini111/rpcxapp/conf"
 	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
+	"github.com/smallnest/rpcx/server"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
-
-	"github.com/rcrowley/go-metrics"
-	"github.com/smallnest/rpcx/server"
 )
 
 func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
-	r := serverplugin.EtcdV3RegisterPlugin{
-		ServiceAddress: conf.CmdConf.Network + "@" + conf.CmdConf.IpAddress, //服务监听的ip端口
-		EtcdServers:    conf.GetEtcdAddr(),                                  //zookeeper地址
-		BasePath:       conf.GetBasePath(),                                  //zk的目录
-		Metrics:        metrics.NewRegistry(),
-		Version:        conf.CmdConf.Version,  //rpc的版本
-		ServerID:       conf.CmdConf.ServerID, //rpc的svrid
-		//UpdateInterval: time.Minute,
-	}
+	serviceAddress, etcdAddress, basePath, version, serid := conf.CmdConf.Network+"@"+conf.CmdConf.IpAddress, conf.GetEtcdAddr(), conf.GetBasePath(), conf.CmdConf.Version, conf.CmdConf.ServerID
+	r := serverplugin.NewEtcdV3Plugin(serviceAddress, etcdAddress, basePath, version, serid)
 	err := r.Start()
 	if err != nil {
 		srv.Close()
@@ -54,7 +50,6 @@ func WaitTerminationSignal(ss *server.Server, shutdown func(s *server.Server)) {
 	}()
 	<-ch
 	conf.CloseEtcdWatch()
-	ss.RegisterOnShutdown(shutdown)
 	ctx, _ := context.WithTimeout(context.Background(), 3*time.Second)
 	ss.Shutdown(ctx)
 	return
