@@ -17,7 +17,7 @@ import (
 )
 
 type AppConfig struct {
-	IP          string   `json:"ip" yaml:"ip"`
+	Host        string   `json:"host" yaml:"host"`
 	Network     string   `json:"network" yaml:"network"`
 	ServerID    int32    `json:"serverID" yaml:"serverID"`
 	ServerName  string   `json:"serverName" yaml:"serverName"`
@@ -28,7 +28,7 @@ type AppConfig struct {
 
 func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
-	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.IP, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
+	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
 	err := r.Start()
 	if err != nil {
 		srv.Close()
@@ -40,7 +40,7 @@ func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error
 	go WaitTerminationSignal(srv, shutdown)
 
 	srv.RegisterName(cfg.ServerName, ctl, cfg.ServerName) //服务名，以及服务的接收方法
-	er := srv.Serve(cfg.Network, cfg.IP)
+	er := srv.Serve(cfg.Network, cfg.Host)
 	if er != nil {
 		log.Fatalln(err)
 	}
