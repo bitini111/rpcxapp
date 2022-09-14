@@ -7,7 +7,6 @@ package rpcxapp
 
 import (
 	"context"
-	"github.com/bitini111/rpcxapp/conf"
 	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
 	"github.com/smallnest/rpcx/server"
 	"log"
@@ -17,7 +16,17 @@ import (
 	"time"
 )
 
-func Run(cfg *conf.AppConfig, ctl interface{}, shutdown func(s *server.Server)) error {
+type AppConfig struct {
+	IP          string   `json:"ip" yaml:"ip"`
+	Network     string   `json:"network" yaml:"network"`
+	ServerID    int32    `json:"serverID" yaml:"serverID"`
+	ServerName  string   `json:"serverName" yaml:"serverName"`
+	RpcPath     string   `json:"rpcPath" yaml:"rpcPath"`
+	Version     string   `json:"version" yaml:"version"`
+	EtcdAddress []string `json:"etcdAddress" yaml:"etcdAddress"`
+}
+
+func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
 	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.IP, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
 	err := r.Start()
