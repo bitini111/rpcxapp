@@ -1,6 +1,6 @@
 module github.com/bitini111/rpcxapp
 
-go 1.16
+go 1.18
 
 require (
 	github.com/rcrowley/go-metrics v0.0.0-20201227073835-cf1acfcdf475
