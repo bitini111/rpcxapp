@@ -4,17 +4,31 @@
     <option name="autoReloadType" value="ALL" />
   </component>
   <component name="ChangeListManager">
-    <list default="true" id="a5f115d2-a16e-45e0-9c37-529bad1a9bf5" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/.idea/.gitignore" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/modules.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/rpcxapp.iml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/.idea/vcs.xml" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/conf/global_cmd.go" beforeDir="false" />
+    <list default="true" id="13bcd622-1ec7-4890-aadc-a43a586c8bfc" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/conf/conf.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/cmd.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/const.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/init.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/vars.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/conf/watcher.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/plog/iniConf.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plog/plog.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/plog/udplogger.go" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpcxapp.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpcxapp.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
     <option name="HIGHLIGHT_NON_ACTIVE_CHANGELIST" value="false" />
     <option name="LAST_RESOLUTION" value="IGNORE" />
+  </component>
+  <component name="FileTemplateManagerImpl">
+    <option name="RECENT_TEMPLATES">
+      <list>
+        <option value="Go File" />
+      </list>
+    </option>
   </component>
   <component name="GOROOT" url="file://$PROJECT_DIR$/../../../Go" />
   <component name="Git.Settings">
@@ -23,18 +37,38 @@
   <component name="GoLibraries">
     <option name="indexEntireGoPath" value="false" />
   </component>
+  <component name="HighlightingSettingsPerFile">
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/server_test.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/go.mod" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/plugin/etcdv3/server/etcv3.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../../Go/src/net/url/url.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/plugin.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../../Go/src/net/net.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/log/logger.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/log/default_logger.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/log/dummy_logger.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/server.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/plugin/etcdv3/client/etcdv3_discovery.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/server.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/rpcx-etcd@v0.2.0/serverplugin/etcdv3.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/libkv@v0.5.1/store/store.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/plugin_test.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/rpcxapp.go" root0="FORCE_HIGHLIGHTING" />
+  </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
   </component>
-  <component name="ProjectId" id="2EQedxQa7fLbgGGLZDnKRlj1xNC" />
+  <component name="ProjectId" id="2EL6epI1YX3yv666dzEMmqtMarS" />
   <component name="ProjectViewState">
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
   <component name="PropertiesComponent">
+    <property name="DefaultGoTemplateProperty" value="Go File" />
     <property name="RunOnceActivity.OpenProjectViewOnStart" value="true" />
     <property name="RunOnceActivity.ShowReadmeOnStart" value="true" />
     <property name="WebServerToolWindowFactoryState" value="false" />
+    <property name="go.format.on.save.advertiser.fired" value="true" />
     <property name="go.formatter.settings.were.checked" value="true" />
     <property name="go.import.settings.migrated" value="true" />
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
@@ -42,6 +76,45 @@
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
     <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="vue.rearranger.settings.migration" value="true" />
+  </component>
+  <component name="RecentsManager">
+    <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work\gitea\rpcxapp" />
+      <recent name="D:\work\gitea\rpcxapp\conf" />
+      <recent name="D:\work\gitea\rpcxapp\plugin\etcdv3\server" />
+      <recent name="D:\work\gitea\rpcxapp\plugin\etcdv3\client" />
+    </key>
+  </component>
+  <component name="RunManager">
+    <configuration default="true" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="rpcxapp" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="FILE" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration name="rpcxapp" type="GoApplicationRunConfiguration" factoryName="Go Application">
+      <module name="rpcxapp" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="DIRECTORY" />
+      <package value="rpcxapp" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <output_directory value="$PROJECT_DIR$" />
+      <method v="2" />
+    </configuration>
+    <configuration default="true" type="GoTestRunConfiguration" factoryName="Go Test">
+      <module name="rpcxapp" />
+      <working_directory value="$PROJECT_DIR$" />
+      <go_parameters value="-i" />
+      <kind value="DIRECTORY" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <method v="2" />
+    </configuration>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
