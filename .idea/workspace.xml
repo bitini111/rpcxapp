@@ -6,6 +6,9 @@
   <component name="ChangeListManager">
     <list default="true" id="13bcd622-1ec7-4890-aadc-a43a586c8bfc" name="变更" comment="">
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/rpcxapp.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpcxapp.go" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -19,7 +22,7 @@
       </list>
     </option>
   </component>
-  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../Go/go1.19.1" />
+  <component name="GOROOT" url="file://$PROJECT_DIR$/../../../Go/go1.18.6" />
   <component name="Git.Settings">
     <option name="RECENT_GIT_ROOT_PATH" value="$PROJECT_DIR$" />
   </component>
@@ -37,12 +40,9 @@
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/log/default_logger.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/log/dummy_logger.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/listener_unix.go" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/server.go" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/plugin/etcdv3/client/etcdv3_discovery.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/plugin/etcdv3/server/etcv3.go" root0="FORCE_HIGHLIGHTING" />
-    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/server.go" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/rpcx-etcd@v0.2.0/serverplugin/etcdv3.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/libkv@v0.5.1/store/store.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/server.go" root0="SKIP_INSPECTION" />
+    <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/server.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/plugin_test.go" root0="SKIP_INSPECTION" />
   </component>
   <component name="MarkdownSettingsMigration">

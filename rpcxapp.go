@@ -8,14 +8,14 @@ package rpcxapp
 import (
 	"context"
 	"fmt"
-	"github.com/bitini111/rpcx/plugin/etcdv3/serverplugin"
-	"github.com/bitini111/rpcx/server"
-	"github.com/rcrowley/go-metrics"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/bitini111/rpcx/plugin/etcdv3/serverplugin"
+	"github.com/bitini111/rpcx/server"
 )
 
 type AppConfig struct {
@@ -30,16 +30,16 @@ type AppConfig struct {
 
 func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
-	r := serverplugin.EtcdV3RegisterPlugin{
-		ServiceAddress: cfg.Network + "@" + cfg.Host,
-		EtcdServers:    cfg.EtcdAddress,
-		BasePath:       cfg.RpcPath,
-		Metrics:        metrics.NewRegistry(),
-		Version:        cfg.Version,
-		ServiceName:    cfg.ServerName,
-		ServerID:       int64(cfg.ServerID),
-	}
-	//r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
+	// r := serverplugin.EtcdV3RegisterPlugin{
+	// 	ServiceAddress: cfg.Network + "@" + cfg.Host,
+	// 	EtcdServers:    cfg.EtcdAddress,
+	// 	BasePath:       cfg.RpcPath,
+	// 	Metrics:        metrics.NewRegistry(),
+	// 	Version:        cfg.Version,
+	// 	ServiceName:    cfg.ServerName,
+	// 	ServerID:       int64(cfg.ServerID),
+	// }
+	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
 	err := r.Start()
 	if err != nil {
 		srv.Close()
