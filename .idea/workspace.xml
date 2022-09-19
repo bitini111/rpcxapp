@@ -5,9 +5,7 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13bcd622-1ec7-4890-aadc-a43a586c8bfc" name="变更" comment="">
-      <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/plugin/etcdv3/server/etcv3.go" beforeDir="false" afterPath="$PROJECT_DIR$/plugin/etcdv3/server/etcv3.go" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/rpcxapp.go" beforeDir="false" afterPath="$PROJECT_DIR$/rpcxapp.go" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -32,7 +30,7 @@
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/server_test.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/go.mod" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/libkv@v0.5.1/libkv.go" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/plugin/etcdv3/server/etcv3.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/rpcxapp.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/service.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/plugin.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/log/logger.go" root0="SKIP_INSPECTION" />
@@ -41,11 +39,11 @@
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/listener_unix.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.11/server/server.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/plugin/etcdv3/client/etcdv3_discovery.go" root0="FORCE_HIGHLIGHTING" />
+    <setting file="file://$PROJECT_DIR$/plugin/etcdv3/server/etcv3.go" root0="FORCE_HIGHLIGHTING" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/server.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/rpcx-etcd@v0.2.0/serverplugin/etcdv3.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/rpcxio/libkv@v0.5.1/store/store.go" root0="SKIP_INSPECTION" />
     <setting file="file://$PROJECT_DIR$/../../git/go/pkg/mod/github.com/smallnest/rpcx@v1.7.10/server/plugin_test.go" root0="SKIP_INSPECTION" />
-    <setting file="file://$PROJECT_DIR$/rpcxapp.go" root0="FORCE_HIGHLIGHTING" />
   </component>
   <component name="MarkdownSettingsMigration">
     <option name="stateVersion" value="1" />
@@ -68,7 +66,7 @@
     <property name="go.modules.go.list.on.any.changes.was.set" value="true" />
     <property name="go.sdk.automatically.set" value="true" />
     <property name="go.watchers.conflict.with.on.save.actions.check.performed" value="true" />
-    <property name="last_opened_file_path" value="$PROJECT_DIR$/../../code/testRpc" />
+    <property name="last_opened_file_path" value="$PROJECT_DIR$" />
     <property name="settings.editor.selected.configurable" value="go.sdk" />
     <property name="vue.rearranger.settings.migration" value="true" />
   </component>

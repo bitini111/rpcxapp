@@ -7,8 +7,10 @@ package rpcxapp
 
 import (
 	"context"
-	serverplugin "github.com/bitini111/rpcxapp/plugin/etcdv3/server"
-	"github.com/smallnest/rpcx/server"
+	"fmt"
+	"github.com/bitini111/rpcx/plugin/etcdv3/serverplugin"
+	"github.com/bitini111/rpcx/server"
+	"github.com/rcrowley/go-metrics"
 	"log"
 	"os"
 	"os/signal"
@@ -28,7 +30,16 @@ type AppConfig struct {
 
 func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error {
 	srv := server.NewServer()
-	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
+	r := serverplugin.EtcdV3RegisterPlugin{
+		ServiceAddress: cfg.Network + "@" + cfg.Host,
+		EtcdServers:    cfg.EtcdAddress,
+		BasePath:       cfg.RpcPath,
+		Metrics:        metrics.NewRegistry(),
+		Version:        cfg.Version,
+		ServiceName:    cfg.ServerName,
+		ServerID:       int64(cfg.ServerID),
+	}
+	//r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
 	err := r.Start()
 	if err != nil {
 		srv.Close()
@@ -38,8 +49,8 @@ func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error
 	srv.Plugins.Add(r)
 
 	go WaitTerminationSignal(srv, shutdown)
-
-	srv.RegisterName(cfg.ServerName, ctl, cfg.ServerName) //服务名，以及服务的接收方法
+	name := fmt.Sprintf("%s/%s/%d#%s", r.BasePath, r.ServiceName, r.ServerID, r.Version)
+	srv.RegisterName(name, ctl, "") //服务名，以及服务的接收方法
 	er := srv.Serve(cfg.Network, cfg.Host)
 	if er != nil {
 		log.Fatalln(err)
