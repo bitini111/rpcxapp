@@ -1,0 +1,9 @@
+base:
+  host: 192.168.8.136:10099
+  network: ws
+  serverID: 2
+  serverName: testRpc
+  rpcPath: india
+  version: 0.0.0.2
+  etcdAddress: [192.168.8.100:12379,192.168.8.100:22379,192.168.8.100:32379]
+

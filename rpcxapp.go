@@ -8,6 +8,8 @@ package rpcxapp
 import (
 	"context"
 	"fmt"
+	"github.com/bitini111/rpcxapp/cmd"
+	"github.com/bitini111/rpcxapp/comm"
 	"log"
 	"os"
 	"os/signal"
@@ -18,27 +20,9 @@ import (
 	"github.com/bitini111/rpcx/server"
 )
 
-type AppConfig struct {
-	Host        string   `json:"host" yaml:"host"`
-	Network     string   `json:"network" yaml:"network"`
-	ServerID    int32    `json:"serverID" yaml:"serverID"`
-	ServerName  string   `json:"serverName" yaml:"serverName"`
-	RpcPath     string   `json:"rpcPath" yaml:"rpcPath"`
-	Version     string   `json:"version" yaml:"version"`
-	EtcdAddress []string `json:"etcdAddress" yaml:"etcdAddress"`
-}
-
-func Run(cfg *AppConfig, ctl interface{}, shutdown func(s *server.Server)) error {
-	srv := server.NewServer()
-	// r := serverplugin.EtcdV3RegisterPlugin{
-	// 	ServiceAddress: cfg.Network + "@" + cfg.Host,
-	// 	EtcdServers:    cfg.EtcdAddress,
-	// 	BasePath:       cfg.RpcPath,
-	// 	Metrics:        metrics.NewRegistry(),
-	// 	Version:        cfg.Version,
-	// 	ServiceName:    cfg.ServerName,
-	// 	ServerID:       int64(cfg.ServerID),
-	// }
+func Run(ctl interface{}, shutdown func(s *server.Server)) error {
+	cmd.Run()
+	srv, cfg := server.NewServer(), comm.Cfg.Base
 	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
 	err := r.Start()
 	if err != nil {

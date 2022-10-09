@@ -5,6 +5,15 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="13bcd622-1ec7-4890-aadc-a43a586c8bfc" name="变更" comment="">
+      <change afterPath="$PROJECT_DIR$/app.yml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/clients.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/rpcxClient.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/selector.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/client/vars.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/cmd/cmd.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/comm/app.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/comm/conf.go" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/rpcxapp_test.go" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.mod" beforeDir="false" afterPath="$PROJECT_DIR$/go.mod" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/go.sum" beforeDir="false" afterPath="$PROJECT_DIR$/go.sum" afterDir="false" />
@@ -72,13 +81,14 @@
   </component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
+      <recent name="D:\work\githup.com\rpcxapp" />
+      <recent name="D:\work\githup.com\rpcxapp\common" />
       <recent name="D:\work\gitea\rpcxapp" />
       <recent name="D:\work\gitea\rpcxapp\conf" />
       <recent name="D:\work\gitea\rpcxapp\plugin\etcdv3\server" />
-      <recent name="D:\work\gitea\rpcxapp\plugin\etcdv3\client" />
     </key>
   </component>
-  <component name="RunManager">
+  <component name="RunManager" selected="Go 测试.github.com/bitini111/rpcxapp 中的 TestRun">
     <configuration name="rpcxapp" type="GoApplicationRunConfiguration" factoryName="Go Application">
       <module name="rpcxapp" />
       <working_directory value="$PROJECT_DIR$" />
@@ -89,6 +99,26 @@
       <output_directory value="$PROJECT_DIR$" />
       <method v="2" />
     </configuration>
+    <configuration name="github.com/bitini111/rpcxapp 中的 TestRun" type="GoTestRunConfiguration" factoryName="Go Test" temporary="true" nameIsGenerated="true">
+      <module name="rpcxapp" />
+      <working_directory value="$PROJECT_DIR$" />
+      <kind value="PACKAGE" />
+      <package value="github.com/bitini111/rpcxapp" />
+      <directory value="$PROJECT_DIR$" />
+      <filePath value="$PROJECT_DIR$" />
+      <framework value="gotest" />
+      <pattern value="^\QTestRun\E$" />
+      <method v="2" />
+    </configuration>
+    <list>
+      <item itemvalue="Go 构建.rpcxapp" />
+      <item itemvalue="Go 测试.github.com/bitini111/rpcxapp 中的 TestRun" />
+    </list>
+    <recent_temporary>
+      <list>
+        <item itemvalue="Go 测试.github.com/bitini111/rpcxapp 中的 TestRun" />
+      </list>
+    </recent_temporary>
   </component>
   <component name="SpellCheckerSettings" RuntimeDictionaries="0" Folders="0" CustomDictionaries="0" DefaultDictionary="应用程序级" UseSingleDictionary="true" transferred="true" />
   <component name="TypeScriptGeneratedFilesManager">
@@ -107,5 +137,16 @@
   </component>
   <component name="VgoProject">
     <integration-enabled>true</integration-enabled>
+  </component>
+  <component name="XDebuggerManager">
+    <breakpoint-manager>
+      <breakpoints>
+        <line-breakpoint enabled="true" type="DlvLineBreakpoint">
+          <url>file://$PROJECT_DIR$/cmd/cmd.go</url>
+          <line>50</line>
+          <option name="timeStamp" value="7" />
+        </line-breakpoint>
+      </breakpoints>
+    </breakpoint-manager>
   </component>
 </project>
