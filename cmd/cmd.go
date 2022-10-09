@@ -2,9 +2,11 @@ package cmd
 
 import (
 	"fmt"
+
 	"github.com/bitini111/rpcxapp/comm"
 	"github.com/fsnotify/fsnotify"
 	"github.com/spf13/viper"
+	"gopkg.in/alecthomas/kingpin.v2"
 )
 
 //var app = kingpin.New("gokins", "A golang workflow application.")
@@ -48,12 +50,13 @@ func initConf() error {
 }
 
 func regs() {
-	//kingpin.Flag("host", "rpcx host").Short('h').StringVar(&comm.Cfg.Base.Host)
-	//kingpin.Flag("net", "rpcx network").Short('n').StringVar(&comm.Cfg.Base.Network)
-	//kingpin.Flag("sn", "rpcx servername").Short('s').StringVar(&comm.Cfg.Base.ServerName)
-	//kingpin.Flag("si", "rpcx serverid").Short('i').Int32Var(&comm.Cfg.Base.ServerID)
-	//kingpin.Flag("path", "rpcx path").Short('p').StringVar(&comm.Cfg.Base.RpcPath)
-	//kingpin.Flag("version", "rpcx version").Short('v').StringVar(&comm.Cfg.Base.Version)
-	//kingpin.Flag("ectds", "rpcx ectds").Short('e').StringsVar(&comm.Cfg.Base.EtcdAddress)
-	//kingpin.Parse()
+	kingpin.Flag("host", "rpcx host").Short('h').StringVar(&comm.Cfg.Base.Host)
+	kingpin.Flag("net", "rpcx network").Short('n').Default("ws").StringVar(&comm.Cfg.Base.Network)
+	kingpin.Flag("sn", "rpcx servername").Short('s').StringVar(&comm.Cfg.Base.ServerName)
+	kingpin.Flag("si", "rpcx serverid").Short('i').Int32Var(&comm.Cfg.Base.ServerID)
+	kingpin.Flag("path", "rpcx path").Short('p').StringVar(&comm.Cfg.Base.RpcPath)
+	kingpin.Flag("version", "rpcx version").Short('v').Default("0.0.0.1").StringVar(&comm.Cfg.Base.Version)
+	kingpin.Flag("ectds", "rpcx ectds").Short('e').StringsVar(&comm.Cfg.Base.EtcdAddress)
+	kingpin.Parse()
+	fmt.Println(comm.Cfg.Base)
 }
