@@ -8,13 +8,14 @@ package rpcxapp
 import (
 	"context"
 	"fmt"
-	"github.com/bitini111/rpcxapp/cmd"
-	"github.com/bitini111/rpcxapp/comm"
 	"log"
 	"os"
 	"os/signal"
 	"syscall"
 	"time"
+
+	"github.com/bitini111/rpcxapp/cmd"
+	"github.com/bitini111/rpcxapp/comm"
 
 	"github.com/bitini111/rpcx/plugin/etcdv3/serverplugin"
 	"github.com/bitini111/rpcx/server"
@@ -23,7 +24,7 @@ import (
 func Run(ctl interface{}, shutdown func(s *server.Server)) error {
 	cmd.Run()
 	srv, cfg := server.NewServer(), comm.Cfg.Base
-	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.Version, cfg.ServerID)
+	r := serverplugin.NewEtcdV3Plugin(cfg.Network+"@"+cfg.Host, cfg.EtcdAddress, cfg.RpcPath, cfg.ServerName, cfg.Version, cfg.ServerID)
 	err := r.Start()
 	if err != nil {
 		srv.Close()
